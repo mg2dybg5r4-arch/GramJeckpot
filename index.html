@@ -3,104 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>GramJeckpot Premium</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>GramJeckpot NexGen 2026</title>
+<script src="https://telegram.org"></script>
 <style>
 :root {
-    --bg-main: #0b0713;
-    --panel-bg: rgba(33, 26, 56, 0.65);
-    --border-color: rgba(198, 163, 255, 0.15);
-    --accent: linear-gradient(135deg, #8a4fff, #ca46ff);
-    --gold: linear-gradient(135deg, #f3b03b, #fcdb73);
-    --text-primary: #ffffff;
-    --text-muted: #a59cb8;
-    --shadow-glow: 0 8px 32px 0 rgba(138, 79, 255, 0.2);
+    --bg-main: #04010a;
+    --panel-bg: rgba(13, 8, 28, 0.75);
+    --accent-glow: #00f0ff;
+    --purple-glow: #bd00ff;
+    --gold-glow: #ffab00;
+    --text-main: #ffffff;
+    --text-secondary: #9287af;
 }
 
 *{box-sizing:border-box;outline:none;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg-main);color:var(--text-primary);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
-.app{max-width:520px;margin:auto;padding:16px;background:radial-gradient(circle at top center, #251647 0%, var(--bg-main) 70%)}
+body{margin:0;background:var(--bg-main);color:var(--text-main);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom);overflow-x:hidden;user-select:none}
+.app{max-width:500px;margin:auto;padding:20px;position:relative;min-height:100vh;z-index:2}
 
-header{text-align:center;padding:24px 8px}
-h1{margin:0;color:#ffffff;font-size:32px;font-weight:800;letter-spacing:-0.5px;text-shadow: 0 0 20px rgba(198,163,255,0.6)}
-.sub{color:var(--text-muted);margin-top:8px;font-size:14px;font-weight:500}
+/* Эффекты живого фона */
+#bg-canvas, #fx-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+#fx-canvas { z-index: 999; }
 
-.panel{background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border-color);border-radius:24px;padding:20px;margin:16px 0;box-shadow:var(--shadow-glow);transition:all 0.3s ease}
-.panel:hover{border-color:rgba(198, 163, 255, 0.3)}
+header{text-align:center;padding:20px 0;position:relative}
+h1{margin:0;font-size:38px;font-weight:900;letter-spacing:-1px;background:linear-gradient(45deg, #fff 30%, #dca5ff 70%, #00f0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 15px rgba(189,0,255,0.5))}
+.sub{color:var(--text-secondary);margin-top:6px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px}
 
-.balance{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
-.stat{background:rgba(48, 36, 73, 0.5);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:14px 4px;transition:transform 0.2s}
-.stat:active{transform:scale(0.95)}
-.num{font-size:24px;font-weight:800;color:#e5daff;text-shadow:0 2px 8px rgba(138,79,255,0.4)}
-.small{font-size:12px;color:var(--text-muted);margin-top:6px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px}
+.panel{background:var(--panel-bg);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);border:1px solid rgba(189,0,255,0.2);border-radius:32px;padding:24px;margin:20px 0;box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.1);transition:all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);position:relative;overflow:hidden}
+.panel::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%); pointer-events:none }
+.panel:hover{border-color:var(--accent-glow);box-shadow: 0 0 30px rgba(0,240,255,0.15)}
 
-h2{font-size:19px;font-weight:700;margin:0 0 16px;letter-spacing:-0.2px;color:#fff}
+.balance{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:rgba(25, 17, 49, 0.6);border:1px solid rgba(255,255,255,0.03);border-radius:24px;padding:18px 4px;text-align:center;box-shadow: 0 8px 16px rgba(0,0,0,0.2)}
+.num{font-size:28px;font-weight:900;text-shadow:0 0 15px rgba(0,240,255,0.5)}
+.small{font-size:11px;color:var(--text-secondary);margin-top:8px;font-weight:800;letter-spacing:0.5px}
 
-button{border:0;border-radius:16px;padding:15px 12px;color:white;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s cubic-bezier(0.4, 0, 0.2, 1);display:inline-flex;align-items:center;justify-content:center;gap:8px}
-button:active{transform:scale(0.96);opacity:0.85}
-button:disabled{opacity:0.25;cursor:not-allowed;transform:none}
+h2{font-size:21px;font-weight:900;margin:0 0 20px;letter-spacing:-0.3px;display:flex;align-items:center;gap:8px}
 
-.primary{background:var(--accent);box-shadow:0 4px 15px rgba(138,79,255,0.35)}
-.secondary{background:rgba(68, 52, 95, 0.5);border:1px solid rgba(255,255,255,0.05);color:#d1c9e0}
-.gold{background:var(--gold);color:#2b1900;box-shadow:0 4px 15px rgba(243,176,59,0.35)}
+button{border:0;border-radius:20px;padding:18px 14px;color:white;font-size:16px;font-weight:800;cursor:pointer;transition:all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1.2);position:relative;display:inline-flex;align-items:center;justify-content:center}
+button:active{transform:scale(0.94) translateY(2px)}
+button:disabled{opacity:0.15;cursor:not-allowed;transform:none}
+
+.primary{background:linear-gradient(135deg, #bd00ff, #00f0ff);box-shadow: 0 8px 25px rgba(189,0,255,0.4), 0 0 30px rgba(0,240,255,0.2)}
+.secondary{background:rgba(44, 31, 74, 0.5);border:1px solid rgba(255,255,255,0.06);color:#dcd5f5}
+.secondary.active{background:#ffffff;color:#04010a;box-shadow:0 0 20px #fff;border-color:#fff}
+.gold{background:linear-gradient(135deg, #ff9100, #ffdb4d);color:#241200;box-shadow:0 8px 25px rgba(255,145,0,0.35)}
 
 .stakes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.stakes button{padding:12px 2px;font-size:14px}
-.stakes button.active{background:#ffffff;color:#0b0713;box-shadow:0 0 12px #fff;font-weight:800}
+.stakes button{padding:16px 2px;font-size:16px;border-radius:16px}
 
-.games{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.game{background:rgba(48, 36, 73, 0.4);padding:14px 4px;min-height:85px;border-radius:18px;border:1px solid transparent;flex-direction:column;font-size:13px;color:var(--text-muted)}
-.game.active{border-color:#b98aff;background:rgba(138, 79, 255, 0.15);color:#fff;box-shadow:0 0 15px rgba(138,79,255,0.25)}
+.games{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.game{background:rgba(33, 22, 59, 0.4);padding:18px 4px;min-height:95px;border-radius:24px;border:1px solid transparent;flex-direction:column;font-size:14px;color:var(--text-secondary)}
+.game.active{border-color:var(--accent-glow);background:rgba(0, 240, 255, 0.08);color:#fff;box-shadow:0 0 25px rgba(0,240,255,0.2)}
 
-.big{font-size:46px;text-align:center;padding:20px;min-height:96px;display:flex;align-items:center;justify-content:center}
+.big{text-align:center;padding:30px;min-height:160px;display:flex;align-items:center;justify-content:center}
 .center{text-align:center}
-.muted{color:var(--text-muted);font-size:13px;line-height:1.6;font-weight:400}
-.result{min-height:30px;text-align:center;color:#f1d5ff;font-weight:700;margin:16px 0;font-size:15px;letter-spacing:0.2px}
+.muted{color:var(--text-secondary);font-size:14px;line-height:1.6;font-weight:500}
+.result{min-height:40px;text-align:center;color:#e8d7ff;font-weight:900;margin:15px 0;font-size:17px;letter-spacing:0.3px}
 
-/* Зона 3D кубика */
-.scene { width: 60px; height: 60px; perspective: 300px; margin: 10px auto; }
-.cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1.1); font-size: 50px; text-align: center; line-height: 60px; }
+/* ИННОВАЦИОННЫЙ 3D КУБ С АНИМАЦИЕЙ ПРЫЖКА */
+.scene { width: 90px; height: 90px; perspective: 600px; margin: 0 auto; transition: transform 0.4s; }
+.cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1.6s cubic-bezier(0.1, 1, 0.1, 1.05); }
+.cube-face { position: absolute; width: 90px; height: 90px; background: radial-gradient(circle at center, #3c1e75 0%, #170733 100%); border: 3px solid #bd00ff; border-radius: 20px; font-size: 52px; line-height: 84px; text-align: center; color: white; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(189,0,255,0.3); }
+.face-1 { transform: rotateY(0deg) translateZ(45px); }
+.face-2 { transform: rotateY(90deg) translateZ(45px); }
+.face-3 { transform: rotateY(180deg) translateZ(45px); }
+.face-4 { transform: rotateY(-90deg) translateZ(45px); }
+.face-5 { transform: rotateX(90deg) translateZ(45px); }
+.face-6 { transform: rotateX(-90deg) translateZ(45px); }
 
-/* Зона мины */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:260px;margin:16px auto}
-.cell{height:75px;font-size:28px;background:rgba(73, 52, 104, 0.4);border:1px solid rgba(255,255,255,0.05);border-radius:18px;display:flex;align-items:center;justify-content:center;transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);cursor:pointer}
-.cell:hover{background:rgba(73, 52, 104, 0.6)}
-.cell.safe{background:rgba(34, 105, 78, 0.6);border-color:#22694e;box-shadow:0 0 15px rgba(34,105,78,0.4);animation:pop 0.3s forwards}
-.cell.boom{background:rgba(165, 47, 83, 0.6);border-color:#a52f53;box-shadow:0 0 15px rgba(165,47,83,0.4);animation:shake 0.3s cubic-bezier(.36,.07,.19,.97) both}
+/* ГОЛОГРАФИЧЕСКОЕ КОЛЕСО */
+.wheel-container { position: relative; width: 240px; height: 240px; margin: 10px auto; }
+.wheel-pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 16px solid transparent; border-right: 16px solid transparent; border-top: 26px solid var(--accent-glow); z-index: 10; filter: drop-shadow(0 0 10px var(--accent-glow)); transition: transform 0.1s ease; transform-origin: top center; }
+.wheel{width:100%;height:100%;border-radius:50%;border:10px solid #1f143a;box-shadow: 0 0 40px rgba(189,0,255,0.5), inset 0 0 30px rgba(0,0,0,0.9);background:conic-gradient(#ffab00 0 45deg,#7545ba 45deg 90deg,#ff4081 90deg 135deg,#0d071c 135deg 180deg,#ffab00 180deg 225deg,#7545ba 225deg 270deg,#ff4081 270deg 315deg,#0d071c 315deg);display:flex;align-items:center;justify-content:center;font-size:46px;transition: transform 4.5s cubic-bezier(0.05, 0.95, 0.05, 1)}
 
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* КИБЕР МИНЫ */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:300px;margin:20px auto}
+.cell{height:85px;font-size:36px;background:rgba(38, 23, 64, 0.5);border:2px solid rgba(189,0,255,0.2);border-radius:24px;display:flex;align-items:center;justify-content:center;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);cursor:pointer;box-shadow:inset 0 0 15px rgba(0,0,0,0.4)}
+.cell:hover{background:rgba(189,0,255,0.25);border-color:#bd00ff;transform:translateY(-2px)}
+.cell.safe{background:rgba(0, 230, 118, 0.2);border-color:#00e676;box-shadow:0 0 25px rgba(0,230,118,0.4);animation:popCell 0.35s forwards}
+.cell.boom{background:rgba(255, 23, 68, 0.35);border-color:#ff1744;box-shadow:0 0 30px rgba(255,23,68,0.6)}
 
-/* Реалистичное колесо */
-.wheel-container { position: relative; width: 180px; height: 180px; margin: 15px auto; }
-.wheel-pointer { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 18px solid #ffffff; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
-.wheel{width:100%;height:100%;border-radius:50%;border:6px solid #ffffff;box-shadow: 0 0 25px rgba(196,161,255,0.4), inset 0 0 20px rgba(0,0,0,0.6);background:conic-gradient(#e5b84c 0 45deg,#7545ba 45deg 90deg,#ec74b4 90deg 135deg,#39265f 135deg 180deg,#e5b84c 180deg 225deg,#7545ba 225deg 270deg,#ec74b4 270deg 315deg,#39265f 315deg);display:flex;align-items:center;justify-content:center;font-size:38px;transition: transform 3.5s cubic-bezier(0.1, 0.8, 0.1, 1)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-.chest{font-size:72px;text-align:center;padding:15px;display:block;cursor:pointer;transition:transform 0.2s}
-.chest:hover{transform:scale(1.05)}
-.opening{animation:jiggle 0.6s infinite}
+.chest{font-size:90px;text-align:center;padding:10px;display:block;cursor:pointer;transition:transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.5);filter:drop-shadow(0 15px 20px rgba(0,0,0,0.6))}
+.chest:hover{transform:scale(1.15) rotate(4deg)}
+.opening{animation:hyperJiggle 0.4s infinite alternate}
 
-.items{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.item{background:rgba(52, 39, 76, 0.5);border:1px solid rgba(255,255,255,0.03);border-radius:14px;padding:10px 14px;font-size:13px;font-weight:600;backdrop-filter:blur(5px)}
-.common{color:#ddd;border-color:rgba(255,255,255,0.1)}
-.rare{color:#62d8ff;box-shadow:inset 0 0 8px rgba(98,216,255,0.15);border-color:rgba(98,216,255,0.3)}
-.epic{color:#d49bff;box-shadow:inset 0 0 8px rgba(212,155,255,0.15);border-color:rgba(212,155,255,0.3)}
-.legendary{color:#ffcf63;box-shadow:inset 0 0 8px rgba(255,207,99,0.15);border-color:rgba(255,207,99,0.3);animation:pulseGlow 2s infinite}
+.items{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.item{background:rgba(37, 23, 61, 0.7);border:1px solid rgba(255,255,255,0.05);border-radius:18px;padding:14px 20px;font-size:14px;font-weight:800;backdrop-filter:blur(10px);box-shadow: 0 6px 15px rgba(0,0,0,0.3)}
+.common{color:#e2e2e2}
+.rare{color:#00e5ff;border-color:rgba(0,229,255,0.4);box-shadow: 0 0 15px rgba(0,229,255,0.15)}
+.epic{color:#d500f9;border-color:rgba(213,0,249,0.4);box-shadow: 0 0 15px rgba(213,0,249,0.15)}
+.legendary{color:#ffea00;border-color:rgba(255,234,0,0.5);animation:legendGlow 2s infinite}
 
-footer{text-align:center;color:#7b7094;font-size:12px;padding:24px 16px;line-height:1.6;font-weight:500}
+footer{text-align:center;color:#594f75;font-size:13px;padding:30px 16px;line-height:1.8;font-weight:700}
 
-@keyframes pop{0%{transform:scale(0.8)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
-@keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(3px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}
-@keyframes jiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8px)}75%{transform:rotate(8px)}}
-@keyframes pulseGlow{0%,100%{box-shadow:0 0 8px rgba(255,207,99,0.2)}50%{box-shadow:0 0 20px rgba(255,207,99,0.5)}}
-.win-glow{animation:glowAnim 0.8s ease}
-@keyframes glowAnim{50%{box-shadow:0 0 35px #ca46ff;border-color:#ca46ff}}
+@keyframes popCell{0%{transform:scale(0.8)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes hyperJiggle{to{transform:scale(1.15) rotate(-6deg) translateY(-5px)}}
+@keyframes legendGlow{0%,100%{box-shadow:0 0 10px rgba(255,234,0,0.2);transform:scale(1)}50%{box-shadow:0 0 25px rgba(255,234,0,0.6);transform:scale(1.03)}}
+
+/* Эффект взрыва экрана */
+.glitch-shake { animation: screenShake 0.4s cubic-bezier(.36,.07,.19,.97) both; filter: hue-rotate(90deg) contrast(1.5); }
+@keyframes screenShake { 10%, 90% { transform: translate3d(-4px, 2px, 0); } 20%, 80% { transform: translate3d(5px, -3px, 0); } 30%, 50%, 70% { transform: translate3d(-6px, 4px, 0); } 40%, 60% { transform: translate3d(6px, -2px, 0); } }
+
+.win-flash { animation: flashPanel 0.8s ease; }
+@keyframes flashPanel { 50% { border-color: var(--accent-glow); box-shadow: 0 0 50px var(--accent-glow); } }
 </style>
 </head>
 <body>
-<div class="app">
+<canvas id="bg-canvas"></canvas>
+<canvas id="fx-canvas"></canvas>
+
+<div class="app" id="appShell">
 <header>
 <h1>🎰 GramJeckpot</h1>
-<div class="sub">Играй • Собирай награды • Повышай уровень</div>
+<div class="sub">NextGen Арена • Экосистема 2026</div>
 </header>
 
 <div class="panel balance">
@@ -110,7 +127,7 @@ footer{text-align:center;color:#7b7094;font-size:12px;padding:24px 16px;line-hei
 </div>
 
 <div class="panel">
-<h2>🎯 Ставка на игру</h2>
+<h2>🎯 Активировать Ставку</h2>
 <div class="stakes" id="stakes">
 <button class="secondary" data-stake="1">1</button>
 <button class="secondary" data-stake="2">2</button>
@@ -118,55 +135,8 @@ footer{text-align:center;color:#7b7094;font-size:12px;padding:24px 16px;line-hei
 <button class="secondary" data-stake="4">4</button>
 <button class="secondary" data-stake="5">5</button>
 </div>
-<div class="muted" style="margin-top:12px">Ставка списывается при запуске игры. Очки виртуальные.</div>
 </div>
 
-<div class="panel">
-<h2>🕹️ Мини-игры</h2>
+<div class="panel" id="mainGamePanel">
+<h2>🕹️ Модули Гейминга</h2>
 <div class="games">
-<button class="game active" data-game="dice">🎲<br style="margin-bottom:4px">Кости</button>
-<button class="game" data-game="wheel">🎡<br style="margin-bottom:4px">Колесо</button>
-<button class="game" data-game="mines">💣<br style="margin-bottom:4px">Мины</button>
-</div>
-
-<div id="diceGame">
-<div class="big">
-    <div class="scene">
-        <div class="cube" id="diceCube">🎲</div>
-    </div>
-</div>
-<div class="muted center">Выпади 4, 5 или 6, чтобы выиграть награду!</div>
-<button class="primary" id="roll" style="width:100%;margin-top:16px">Бросить кости</button>
-</div>
-
-<div id="wheelGame" hidden>
-<div class="wheel-container">
-    <div class="wheel-pointer"></div>
-    <div class="wheel" id="wheel">🎁</div>
-</div>
-<div class="muted center">Крути колево фортуны и испытай свою удачу.</div>
-<button class="primary" id="spin" style="width:100%;margin-top:16px">Крутить колесо</button>
-</div>
-
-<div id="minesGame" hidden>
-<div class="big" style="font-size:32px; padding:5px; min-height:50px">💣 &nbsp; 💎 &nbsp; 💣</div>
-<div class="muted center">Открывай безопасные клетки, забирай очки до встречи с миной!</div>
-<div class="grid" id="mineGrid"></div>
-<div class="actions" style="margin-top:16px">
-<button class="primary" id="startMines">Начать</button>
-<button class="gold" id="cashout" disabled>Забрать</button>
-</div>
-</div>
-
-<div class="result" id="result">Испытай удачу прямо сейчас!</div>
-</div>
-
-<div class="panel center">
-<h2>🎁 Ежедневный премиум-сундук</h2>
-<span class="chest" id="dailyChest">🧰</span>
-<div class="muted">Доступен раз в сутки. Содержит ценную валюту и редкие артефакты.</div>
-<button class="gold" id="daily" style="width:100%;margin-top:16px">Открыть сундук</button>
-<div class="result" id="dailyResult"></div>
-</div>
-
-<div class="panel">
