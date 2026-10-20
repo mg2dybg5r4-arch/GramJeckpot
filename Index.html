@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GramJeckpot</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#100d1c;color:#fff;font-family:Arial,sans-serif}
+.app{max-width:480px;margin:auto;padding:22px 18px 35px}
+header{text-align:center;padding:20px 0}
+.logo{font-size:42px}
+h1{margin:10px 0;color:#c7a7ff;font-size:30px}
+.sub{color:#aaa3ba;font-size:14px}
+.wallet{background:#211a35;border:1px solid #49376c;border-radius:18px;padding:18px;margin:18px 0}
+.balances{display:flex;justify-content:space-around;text-align:center}
+.amount{font-size:22px;font-weight:bold;margin-top:8px}
+.label{font-size:13px;color:#b7aecb}
+h2{font-size:19px;margin-top:26px}
+.case{background:linear-gradient(145deg,#493078,#211a35);border-radius:22px;padding:25px 15px;text-align:center}
+.chest{font-size:76px;margin:12px}
+button{width:100%;padding:15px;border:0;border-radius:13px;background:#b89aff;color:#170d2a;font-size:16px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.game{background:#211a35;padding:20px 10px;border-radius:16px;text-align:center}
+.game span{font-size:30px}
+.game p{margin-bottom:0}
+.notice{font-size:12px;color:#9d94af;line-height:1.5;margin-top:24px}
+</style>
+</head>
+<body>
+<main class="app">
+<header>
+<div class="logo">🎰</div>
+<h1>GramJeckpot</h1>
+<div class="sub">ТВОЯ ИГРА. ТВОЙ ШАНС.</div>
+</header>
+<section class="wallet">
+<div class="balances">
+<div><div class="label">TON</div><div class="amount">0.00</div></div>
+<div><div class="label">⭐ Stars</div><div class="amount">0</div></div>
+</div>
+</section>
+<h2>🎁 Ежедневный кейс</h2>
+<section class="case">
+<div class="sub">ТВОЙ БЕСПЛАТНЫЙ БОНУС</div>
+<div class="chest">🎁</div>
+<p id="message">Открой кейс и испытай удачу!</p>
+<button id="open">Открыть кейс</button>
+</section>
+<h2>🎮 Игровой зал</h2>
+<section class="games">
+<div class="game"><span>🎲</span><p>Dice</p></div>
+<div class="game"><span>💣</span><p>Mines</p></div>
+<div class="game"><span>🎡</span><p>Колесо удачи</p></div>
+<div class="game"><span>🏆</span><p>Рейтинг</p></div>
+</section>
+<p class="notice">Демонстрационная версия. Балансы и награды пока не подключены. Не отправляй криптовалюту на этой странице.</p>
+</main>
+<script>
+const button=document.getElementById('open');
+button.addEventListener('click',()=>{
+ document.getElementById('message').textContent='Отлично! Игровой прототип запущен. Систему наград подключим следующим этапом.';
+ button.textContent='Кейс просмотрен';
+ button.disabled=true;
+});
+</script>
+</body>
+</html>
