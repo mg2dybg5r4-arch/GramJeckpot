@@ -4,235 +4,607 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#090715">
-<title>GramJeckpot RETRO FUTURE</title>
+<meta name="theme-color" content="#090713">
+<meta name="description" content="GramJeckpot — твоя ретро-футуристическая игровая аркада.">
+<title>GramJeckpot 2.0</title>
 <style>
-:root{--bg:#090715;--panel:#19142d;--cyan:#52f6ff;--pink:#ff4fd8;--gold:#ffd36a;--purple:#a879ff;--green:#68ffb0}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:radial-gradient(ellipse at top,#38205e,#100d20 48%,#070611);color:white;font-family:system-ui,-apple-system,sans-serif;min-height:100vh}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(#8d73ff 1px,transparent 1px),linear-gradient(90deg,#8d73ff 1px,transparent 1px);background-size:30px 30px}
-.app{max-width:520px;margin:auto;padding:calc(15px + env(safe-area-inset-top)) 15px calc(25px + env(safe-area-inset-bottom));position:relative}
-.top{display:flex;justify-content:space-between;font-size:10px;letter-spacing:1.5px;color:#c6b9e8;font-weight:900}
-.hero{text-align:center;padding:25px 0 20px}
-h1{margin:0;font-size:clamp(30px,8vw,44px);font-weight:1000;letter-spacing:-2px;background:linear-gradient(100deg,#fff,var(--cyan),#d6a2ff,var(--pink),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 15px #a879ff55)}
-.subtitle{font-size:10px;letter-spacing:2px;color:#aaa1cc;margin-top:10px;font-weight:900}
-.panel{margin:14px 0;padding:17px;border-radius:24px;background:linear-gradient(145deg,#211936ed,#100e20ed);border:1px solid #ffffff19;box-shadow:0 12px 30px #0005,inset 0 1px #ffffff0a}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{text-align:center;background:#090815;border:1px solid #ffffff12;border-radius:16px;padding:12px 2px}
-.icon{font-size:22px}.num{font-size:26px;font-weight:1000}.label{font-size:9px;letter-spacing:1px;color:#a9a2c6;font-weight:900}
-h2{font-size:15px;margin:0 0 14px;font-weight:1000;display:flex;justify-content:space-between;align-items:center}
-h2 small{font-size:9px;letter-spacing:1px;color:#9b91bc}
-.stakes{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
-button{font:inherit;color:white;border:0;cursor:pointer;touch-action:manipulation}
-.stake{padding:12px 2px;border-radius:12px;background:#29213f;border:1px solid #ffffff12;color:#c6b9e8;font-weight:1000}
-.stake.active{background:linear-gradient(135deg,var(--cyan),#a6fff4);color:#101020;box-shadow:0 0 18px #52f6ff55}
-.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.game{min-height:118px;text-align:left;padding:13px;border-radius:17px;background:linear-gradient(145deg,#302345,#131020);border:1px solid #ffffff15;position:relative;overflow:hidden}
-.game.active{border-color:var(--cyan);box-shadow:0 0 18px #52f6ff28}
-.game-icon{font-size:33px;display:block}.game-name{font-size:14px;font-weight:1000;margin-top:8px}.desc{font-size:10px;color:#a9a2c6;margin-top:3px}
-.game:after{content:"";position:absolute;width:90px;height:90px;right:-35px;top:-35px;border-radius:50%;background:var(--glow);opacity:.15;filter:blur(6px)}
-.stage{min-height:230px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:15px 3px}
-.stage-label{font-size:10px;letter-spacing:2px;color:#a9a2c6;font-weight:900}
-.stage-emoji{font-size:72px;line-height:1.3;margin:12px 0;filter:drop-shadow(0 0 18px #a879ff70)}
-.message{font-size:14px;font-weight:900;min-height:22px}.sub{font-size:11px;color:#9d94bb;margin-top:7px;line-height:1.5}
-.action{width:100%;padding:15px;border-radius:15px;font-size:13px;font-weight:1000;background:linear-gradient(100deg,#8d4bff,#e84dd8 55%,#52cfff);box-shadow:0 7px 22px #a879ff30;margin-top:10px}
-.alt{background:#29213f;border:1px solid #ffffff1c;box-shadow:none}
-.gold{background:linear-gradient(100deg,#ffb632,#ffe58c);color:#271600}
-.wheel{width:180px;height:180px;border-radius:50%;border:8px solid #30244b;box-shadow:0 0 26px #a879ff50,inset 0 0 0 3px #090715;display:grid;place-items:center;font-size:48px;background:conic-gradient(#ffd36a 0 45deg,#a879ff 45deg 90deg,#ff4fd8 90deg 135deg,#52f6ff 135deg 180deg,#ffd36a 180deg 225deg,#a879ff 225deg 270deg,#ff4fd8 270deg 315deg,#52f6ff 315deg);transition:transform 3s cubic-bezier(.12,.75,.12,1)}
-.wheel-wrap{position:relative;margin:8px auto 12px}.pointer{position:absolute;top:-5px;left:50%;transform:translateX(-50%);z-index:2;border-left:11px solid transparent;border-right:11px solid transparent;border-top:22px solid white}
-.dice{width:90px;height:90px;border-radius:22px;background:linear-gradient(145deg,#392b5c,#171126);border:3px solid var(--cyan);display:grid;place-items:center;font-size:53px;box-shadow:0 0 25px #52f6ff3a}
-.spin{animation:spin .45s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-.minegrid{display:grid;grid-template-columns:repeat(3,65px);gap:8px;margin:12px auto}
-.cell{height:61px;border-radius:13px;background:#29213f;border:1px solid #a879ff66;font-size:25px}
-.cell.safe{background:#0e493b;border-color:var(--green)}.cell.boom{background:#551c42;border-color:#ff4f7d}
-.inventory{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.item{border-radius:14px;padding:12px;background:#0d0b1b;border:1px solid #ffffff15}
-.item b{font-size:11px}.item small{display:block;font-size:9px;margin-top:4px;letter-spacing:1px}
-.common{color:#c6c1d9}.rare{color:var(--cyan)}.epic{color:var(--purple)}.legendary{color:var(--gold)}
-.achievements{display:flex;gap:8px;overflow:auto}.achievement{min-width:100px;padding:12px;border-radius:13px;background:#0d0b1b;text-align:center;border:1px solid #ffffff15;font-size:10px}
-.achievement span{display:block;font-size:23px;margin-bottom:5px}
-.notice{text-align:center;color:#8980a8;font-size:10px;line-height:1.6;padding:14px 6px}
-.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);opacity:0;background:#211937;border:1px solid #a879ff;border-radius:13px;padding:12px 16px;z-index:9;font-size:12px;font-weight:900;transition:.2s;max-width:90%;text-align:center;pointer-events:none}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(min-width:420px){.games{grid-template-columns:repeat(3,minmax(0,1fr))}}
+:root{
+  --bg:#090713;--panel:#141125;--panel2:#1b1731;
+  --purple:#a855f7;--cyan:#35eaff;--pink:#ff4fbd;
+  --gold:#ffd76a;--green:#50ffc0;--text:#f7f3ff;
+  --muted:#9c94b9;--border:rgba(174,145,255,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+  radial-gradient(ellipse at 10% 0%,rgba(112,49,208,.2),transparent 36%),
+  radial-gradient(ellipse at 100% 35%,rgba(0,206,255,.09),transparent 30%),var(--bg);
+  color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh;overflow-x:hidden;padding-bottom:94px;
+}
+button{font:inherit;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+button:disabled{opacity:.45;cursor:not-allowed}
+*{scrollbar-width:thin;scrollbar-color:#514176 transparent}
+.app{width:min(100%,600px);margin:auto;padding:15px 15px 25px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{
+ width:45px;height:45px;border-radius:14px;display:grid;place-items:center;font-size:25px;
+ background:linear-gradient(145deg,#742cff,#17132f 65%);border:1px solid #ad75ff;
+ box-shadow:0 0 25px #8c36ff35,inset 0 0 15px #b48aff30;flex-shrink:0
+}
+.brand-name{font-weight:950;letter-spacing:-.7px;font-size:19px;line-height:1.1}
+.brand-name span{color:var(--cyan)}
+.brand-sub{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:5px}
+.icon-btn{width:40px;height:40px;border-radius:13px;background:var(--panel);border:1px solid var(--border);font-size:17px}
+.hero{
+ position:relative;overflow:hidden;padding:22px 20px 20px;border-radius:25px;
+ background:linear-gradient(135deg,#25144a,#11152d 58%,#0c2634);
+ border:1px solid #6d4b9e;box-shadow:0 12px 45px #0005,inset 0 0 45px #b34dff0b
+}
+.hero:before{content:"";position:absolute;width:210px;height:210px;right:-85px;top:-95px;border-radius:50%;border:1px solid #d0a1ff33;box-shadow:0 0 0 20px #d0a1ff09,0 0 0 40px #d0a1ff07}
+.hero:after{content:"";position:absolute;width:110px;height:110px;right:17px;bottom:-80px;border-radius:50%;background:var(--cyan);filter:blur(75px);opacity:.4}
+.hero-label{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2.5px}
+.hero h1{font-size:29px;line-height:1.12;letter-spacing:-1.2px;margin:10px 0}
+.hero h1 span{color:var(--gold);text-shadow:0 0 20px #ffd76a44}
+.hero p{font-size:12px;line-height:1.6;color:#c7c0e0;max-width:270px;margin:0}
+.hero-art{position:absolute;right:17px;top:38px;font-size:65px;filter:drop-shadow(0 0 20px #a855f766);animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 12px #a855f733}50%{box-shadow:0 0 28px #a855f766}}
+@keyframes pop{0%{transform:scale(.75);opacity:.2}75%{transform:scale(1.07)}100%{transform:scale(1);opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+.balance-card{margin-top:16px;padding:17px;border-radius:21px;background:linear-gradient(120deg,#1b1833,#141125);border:1px solid var(--border)}
+.balance-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.eyebrow{font-size:10px;letter-spacing:1.7px;color:var(--muted);font-weight:800}
+.balance{font-size:32px;font-weight:950;letter-spacing:-1px;margin-top:3px}
+.balance small{font-size:12px;color:var(--cyan);letter-spacing:1px}
+.level-chip{border:1px solid #a855f766;background:#8c39ff1a;border-radius:12px;padding:8px 10px;text-align:center;min-width:68px}
+.level-chip b{display:block;color:#d7a8ff;font-size:17px}
+.level-chip span{font-size:9px;color:var(--muted);letter-spacing:1px}
+.xp-line{height:5px;border-radius:10px;background:#ffffff10;overflow:hidden;margin-top:13px}
+.xp-fill{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width .4s}
+.xp-caption{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:13px 0 24px}
+.stat{background:#131023;border:1px solid var(--border);border-radius:15px;padding:12px 10px}
+.stat-icon{font-size:17px}.stat-num{font-weight:900;font-size:18px;margin-top:5px}.stat-label{font-size:10px;color:var(--muted);margin-top:2px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:22px 0 12px}
+.section-head h2{font-size:17px;margin:0;letter-spacing:-.4px}
+.section-head p{font-size:10px;color:var(--muted);margin:4px 0 0}
+.section-tag{font-size:9px;color:var(--cyan);border:1px solid #35eaff40;padding:5px 8px;border-radius:8px;letter-spacing:1px}
+.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.game{
+ position:relative;text-align:left;padding:14px;min-height:144px;overflow:hidden;
+ border:1px solid var(--border);border-radius:19px;background:linear-gradient(145deg,#1d1934,#121020);
+ transition:transform .15s,border-color .15s
+}
+.game:active{transform:scale(.97)}
+.game.selected{border-color:var(--cyan);box-shadow:inset 0 0 24px #35eaff0c}
+.game:before{content:"";position:absolute;width:95px;height:95px;right:-42px;top:-42px;border-radius:50%;background:var(--glow,#a855f7);filter:blur(40px);opacity:.3}
+.game-icon{font-size:33px;display:block;margin-bottom:13px;filter:drop-shadow(0 0 12px #a855f744)}
+.game-name{font-size:13px;font-weight:900}
+.game-desc{font-size:10px;color:var(--muted);margin-top:4px}
+.game-cost{position:absolute;right:11px;top:11px;font-size:9px;color:var(--gold);background:#ffd76a12;border:1px solid #ffd76a30;padding:4px 6px;border-radius:7px}
+.play-panel{margin-top:19px;border:1px solid #6d4b9e7a;border-radius:23px;background:linear-gradient(145deg,#1b1630,#10101f);padding:17px;min-height:270px;box-shadow:0 10px 35px #0003}
+.panel-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.panel-title{font-weight:900;font-size:16px}
+.panel-sub{font-size:10px;color:var(--muted);margin-top:3px}
+.live-dot{font-size:9px;color:var(--green);letter-spacing:1px}
+.stage{
+ min-height:137px;display:flex;align-items:center;justify-content:center;flex-direction:column;
+ text-align:center;padding:18px 5px;gap:10px
+}
+.stage-emoji{font-size:52px;filter:drop-shadow(0 0 20px #a855f755)}
+.stage-message{font-size:12px;color:#c5bddf;line-height:1.5}
+.stage-message strong{color:var(--gold)}
+.controls{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.stake-btn{background:#ffffff07;border:1px solid var(--border);border-radius:10px;padding:9px 13px;font-size:11px;font-weight:800;min-width:42px}
+.stake-btn.active{color:var(--cyan);border-color:var(--cyan);background:#35eaff12}
+.primary{
+ width:100%;border:0;border-radius:13px;padding:13px 15px;font-size:12px;font-weight:950;
+ color:#10091b;background:linear-gradient(100deg,#b37aff,#55eaff);box-shadow:0 5px 20px #8e48ff20;
+ transition:transform .15s
+}
+.primary:active{transform:scale(.985)}
+.secondary{background:#ffffff08;border:1px solid var(--border);border-radius:12px;padding:10px 13px;font-size:11px;font-weight:800}
+.panel-actions{display:grid;grid-template-columns:1fr;gap:8px;margin-top:6px}
+.mines{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%;max-width:300px;margin:5px auto}
+.mine-cell{aspect-ratio:1;border-radius:10px;border:1px solid #7253a0;background:linear-gradient(145deg,#30234d,#1a1730);font-size:20px;box-shadow:inset 0 0 12px #b178ff0b}
+.mine-cell.open{background:#183d43;border-color:var(--green)}
+.mine-cell.bomb{background:#4b183c;border-color:var(--pink)}
+.wheel{width:125px;height:125px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#ff4fbd 0 45deg,#211b3c 45deg 90deg,#35eaff 90deg 135deg,#211b3c 135deg 180deg,#a855f7 180deg 225deg,#211b3c 225deg 270deg,#ffd76a 270deg 315deg,#211b3c 315deg);border:5px solid #e2c5ff;box-shadow:0 0 24px #a855f744;font-size:32px}
+.wheel.spinning{animation:spin 1.5s cubic-bezier(.15,.75,.2,1) forwards}
+.slots{display:flex;gap:7px;justify-content:center}
+.slot{width:61px;height:67px;display:grid;place-items:center;border-radius:12px;background:#0b0916;border:1px solid #76569d;font-size:32px;box-shadow:inset 0 0 18px #a855f722}
+.inventory{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.item{position:relative;text-align:center;padding:12px 5px;border:1px solid var(--border);border-radius:14px;background:#151126;min-width:0}
+.item-icon{font-size:29px;display:block;margin-bottom:7px}
+.item-name{font-size:10px;font-weight:850;overflow-wrap:anywhere}
+.item-rarity{font-size:8px;letter-spacing:.5px;margin-top:5px;color:var(--rarity,#b9a3ff)}
+.item-count{position:absolute;top:6px;right:7px;background:#312447;border-radius:7px;font-size:9px;padding:3px 5px}
+.daily-card{border:1px solid #7b632e;border-radius:19px;padding:15px;background:linear-gradient(120deg,#2b2115,#191327);display:flex;align-items:center;gap:13px}
+.daily-icon{font-size:39px}
+.daily-text{flex:1;min-width:0}
+.daily-text b{font-size:13px}.daily-text p{font-size:10px;color:var(--muted);margin:5px 0 0;line-height:1.5}
+.daily-btn{background:linear-gradient(100deg,#ffd76a,#ffad4c);color:#251300;border:0;border-radius:10px;padding:10px;font-weight:950;font-size:10px;white-space:nowrap}
+.daily-btn:disabled{filter:grayscale(1)}
+.achievements{display:grid;gap:8px}
+.achievement{display:flex;align-items:center;gap:11px;padding:11px;border-radius:13px;background:#151126;border:1px solid var(--border)}
+.ach-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:#ffffff08;font-size:20px;flex-shrink:0}
+.ach-info{flex:1;min-width:0}.ach-info b{font-size:11px}.ach-info p{font-size:10px;color:var(--muted);margin:3px 0 0}
+.ach-status{font-size:9px;color:var(--gold);white-space:nowrap}
+.history{display:grid;gap:7px}
+.history-row{display:flex;align-items:center;gap:10px;background:#141125;border:1px solid var(--border);border-radius:12px;padding:10px}
+.history-icon{font-size:20px}.history-detail{flex:1;font-size:11px;font-weight:800}.history-detail small{display:block;color:var(--muted);font-size:9px;margin-top:3px;font-weight:500}
+.history-value{font-size:11px;font-weight:900}
+.bottom-nav{
+ position:fixed;z-index:10;bottom:0;left:0;right:0;padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+ background:#0d0a18ed;backdrop-filter:blur(20px);border-top:1px solid var(--border);
+ display:flex;justify-content:center
+}
+.nav-inner{width:min(100%,570px);display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.nav-btn{border:0;background:transparent;color:var(--muted);border-radius:12px;padding:7px 3px;font-size:9px;display:flex;align-items:center;flex-direction:column;gap:3px}
+.nav-btn span{font-size:20px}
+.nav-btn.active{color:var(--cyan);background:#35eaff0c}
+.view{display:none}.view.active{display:block;animation:pop .2s ease}
+.toast{
+ position:fixed;z-index:20;bottom:92px;left:50%;transform:translateX(-50%);
+ background:#211936;border:1px solid #9e71d8;border-radius:13px;padding:12px 17px;
+ box-shadow:0 8px 30px #0007;font-size:12px;font-weight:800;text-align:center;
+ width:max-content;max-width:calc(100% - 35px);display:none
+}
+.toast.show{display:block;animation:pop .2s ease}
+.footer{text-align:center;color:#655d7e;font-size:9px;line-height:1.7;margin:22px 0 6px}
+.empty{text-align:center;color:var(--muted);font-size:11px;padding:24px 10px}
+@media(min-width:480px){.hero{padding:27px}.hero h1{font-size:34px}.game{min-height:155px}.app{padding-left:20px;padding-right:20px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 <div class="app">
-<div class="top"><span>GJ / ARCADE SYSTEM</span><span>● SYSTEM ONLINE</span></div>
-<header class="hero">
-<h1>✦ GramJeckpot</h1>
-<div class="subtitle">RETRO FUTURE • PIXEL LUXURY ARCADE</div>
-</header>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">👾</div>
+      <div>
+        <div class="brand-name">GRAM<span>JECKPOT</span></div>
+        <div class="brand-sub">RETRO FUTURE ARCADE</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="soundBtn" aria-label="Звук" onclick="toggleSound()">🔇</button>
+  </header>
 
-<section class="panel">
-<h2>PLAYER TERMINAL <small>LVL <span id="level">1</span> · <span id="xp">0</span> XP</small></h2>
-<div class="stats">
-<div class="stat"><div class="icon">🎟️</div><div class="num" id="balance">100</div><div class="label">ОЧКИ</div></div>
-<div class="stat"><div class="icon">💎</div><div class="num" id="crystals">0</div><div class="label">КРИСТАЛЛЫ</div></div>
-<div class="stat"><div class="icon">🎁</div><div class="num" id="chests">0</div><div class="label">СУНДУКИ</div></div>
-</div>
-</section>
+  <main>
+    <section id="homeView" class="view active">
+      <div class="hero">
+        <div class="hero-label">PLAYER ONE • ONLINE</div>
+        <h1>PLAY THE GAME.<br><span>OWN THE LEGEND.</span></h1>
+        <p>Играй, собирай цифровые трофеи, повышай уровень и открывай новые достижения.</p>
+        <div class="hero-art">🕹️</div>
+      </div>
 
-<section class="panel">
-<h2>🎚️ Выбери ставку <small>1–5 ОЧКОВ</small></h2>
-<div class="stakes">
-<button class="stake" data-stake="1">1</button><button class="stake" data-stake="2">2</button><button class="stake active" data-stake="3">3</button><button class="stake" data-stake="4">4</button><button class="stake" data-stake="5">5</button>
-</div>
-</section>
+      <div class="balance-card">
+        <div class="balance-top">
+          <div>
+            <div class="eyebrow">ТВОЙ ИГРОВОЙ БАЛАНС</div>
+            <div class="balance"><span id="balance">100</span> <small>PTS</small></div>
+          </div>
+          <div class="level-chip"><b id="level">01</b><span>УРОВЕНЬ</span></div>
+        </div>
+        <div class="xp-line"><div class="xp-fill" id="xpFill"></div></div>
+        <div class="xp-caption"><span>ОПЫТ</span><span id="xpText">0 / 100 XP</span></div>
+      </div>
 
-<section class="panel">
-<h2>🕹️ Картриджи <small>INSERT FUN</small></h2>
-<div class="games">
-<button class="game active" data-game="dice" style="--glow:#52f6ff"><span class="game-icon">🎲</span><div class="game-name">Pixel Dice</div><div class="desc">Брось вызов удаче</div></button>
-<button class="game" data-game="wheel" style="--glow:#ff4fd8"><span class="game-icon">🎡</span><div class="game-name">Neon Wheel</div><div class="desc">Вращай сектор</div></button>
-<button class="game" data-game="mines" style="--glow:#68ffb0"><span class="game-icon">💣</span><div class="game-name">Cyber Mines</div><div class="desc">Найди кристаллы</div></button>
-<button class="game" data-game="case" style="--glow:#ffd36a"><span class="game-icon">🧰</span><div class="game-name">Mystery Case</div><div class="desc">Открой артефакт</div></button>
-<button class="game" data-game="slots" style="--glow:#a879ff"><span class="game-icon">🎰</span><div class="game-name">Pixel Slots</div><div class="desc">Собери комбинацию</div></button>
-<button class="game" data-game="daily" style="--glow:#ff9bdc"><span class="game-icon">🌠</span><div class="game-name">Daily Drop</div><div class="desc">Ежедневный подарок</div></button>
-</div>
-</section>
+      <div class="stats">
+        <div class="stat"><div class="stat-icon">🎮</div><div class="stat-num" id="played">0</div><div class="stat-label">Игр сыграно</div></div>
+        <div class="stat"><div class="stat-icon">💎</div><div class="stat-num" id="crystals">0</div><div class="stat-label">Кристаллы</div></div>
+        <div class="stat"><div class="stat-icon">🏆</div><div class="stat-num" id="wins">0</div><div class="stat-label">Победы</div></div>
+      </div>
 
-<section class="panel" id="playPanel">
-<h2><span id="gameTitle">🎲 Pixel Dice</span><small id="gameCode">CARTRIDGE 01</small></h2>
-<div class="stage" id="stage">
-<div class="stage-label" id="stageLabel">READY PLAYER ONE</div>
-<div class="stage-emoji" id="stageEmoji">🎲</div>
-<div class="message" id="message">Твой ход. Испытай удачу!</div>
-<div class="sub" id="sub">Выпади 5 или 6, чтобы получить больше очков.</div>
-</div>
-<div id="mineGrid" class="minegrid" hidden></div>
-<button class="action" id="playBtn">▶ ЗАПУСТИТЬ ИГРУ · 3 ОЧКА</button>
-<button class="action alt" id="cashoutBtn" hidden>💎 ЗАБРАТЬ НАГРАДУ</button>
-</section>
+      <div class="section-head">
+        <div><h2>Аркадный зал</h2><p>Выбери свою игру</p></div>
+        <div class="section-tag">6 MODES</div>
+      </div>
+      <div class="games" id="gamesGrid">
+        <button class="game selected" style="--glow:#a855f7" onclick="selectGame('dice')">
+          <span class="game-cost">1–5 PTS</span><span class="game-icon">🎲</span><div class="game-name">PIXEL DICE</div><div class="game-desc">Брось вызов удаче</div>
+        </button>
+        <button class="game" style="--glow:#ff4fbd" onclick="selectGame('wheel')">
+          <span class="game-cost">1–5 PTS</span><span class="game-icon">🎡</span><div class="game-name">NEON WHEEL</div><div class="game-desc">Крути и выигрывай</div>
+        </button>
+        <button class="game" style="--glow:#35eaff" onclick="selectGame('mines')">
+          <span class="game-cost">1–5 PTS</span><span class="game-icon">💣</span><div class="game-name">CYBER MINES</div><div class="game-desc">Найди кристаллы</div>
+        </button>
+        <button class="game" style="--glow:#ffd76a" onclick="selectGame('case')">
+          <span class="game-cost">1–5 PTS</span><span class="game-icon">🎁</span><div class="game-name">MYSTERY CASE</div><div class="game-desc">Открой тайный лут</div>
+        </button>
+        <button class="game" style="--glow:#50ffc0" onclick="selectGame('slots')">
+          <span class="game-cost">1–5 PTS</span><span class="game-icon">🎰</span><div class="game-name">PIXEL SLOTS</div><div class="game-desc">Собери комбинацию</div>
+        </button>
+        <button class="game" style="--glow:#ff884f" onclick="selectGame('daily')">
+          <span class="game-cost">FREE</span><span class="game-icon">🌠</span><div class="game-name">DAILY DROP</div><div class="game-desc">Подарок каждый день</div>
+        </button>
+      </div>
 
-<section class="panel">
-<h2>🎁 Коллекция артефактов <small id="itemTotal">0 ПРЕДМЕТОВ</small></h2>
-<div class="inventory" id="inventory"></div>
-</section>
-<section class="panel">
-<h2>🏆 Достижения <small>PLAYER BADGES</small></h2>
-<div class="achievements" id="achievements"></div>
-</section>
-<section class="panel">
-<h2>💾 Система <small>LOCAL SAVE</small></h2>
-<div class="sub">Прогресс автоматически сохраняется в браузере на этом устройстве.</div>
-<button class="action alt" id="soundBtn">🔇 ЗВУК: ВЫКЛ</button>
-<button class="action alt" id="resetBtn">↻ СБРОСИТЬ ПРОГРЕСС</button>
-</section>
-<div class="notice">ДЕМО-АРКАДА. ВИРТУАЛЬНЫЕ ОЧКИ И ПРЕДМЕТЫ НЕ ЯВЛЯЮТСЯ ДЕНЬГАМИ, TON ИЛИ TELEGRAM STARS. ИГРА НЕ ПОДКЛЮЧЕНА К РЕАЛЬНОМУ КОШЕЛЬКУ.</div>
+      <div class="play-panel" id="playPanel">
+        <div class="panel-top">
+          <div><div class="panel-title" id="panelTitle">🎲 Pixel Dice</div><div class="panel-sub" id="panelSub">Проверь свою удачу</div></div>
+          <div class="live-dot">● READY</div>
+        </div>
+        <div class="stage" id="stage">
+          <div class="stage-emoji" id="stageEmoji">🎲</div>
+          <div class="stage-message" id="stageMessage">Выбери ставку и брось кубик.<br>Выпало 5 или 6 — получаешь награду!</div>
+        </div>
+        <div class="controls" id="stakeControls">
+          <button class="stake-btn" onclick="setStake(1)">1 PTS</button>
+          <button class="stake-btn active" onclick="setStake(2)">2 PTS</button>
+          <button class="stake-btn" onclick="setStake(3)">3 PTS</button>
+          <button class="stake-btn" onclick="setStake(4)">4 PTS</button>
+          <button class="stake-btn" onclick="setStake(5)">5 PTS</button>
+        </div>
+        <div class="panel-actions">
+          <button class="primary" id="playBtn" onclick="playGame()">🎮 ИГРАТЬ • 2 PTS</button>
+          <button class="secondary" id="cashoutBtn" onclick="cashout()" style="display:none">💎 ЗАБРАТЬ НАГРАДУ</button>
+        </div>
+      </div>
+
+      <div class="section-head"><div><h2>Ежедневный бонус</h2><p>Заглядывай каждый день</p></div><div class="section-tag">DAILY</div></div>
+      <div class="daily-card">
+        <div class="daily-icon">🎁</div>
+        <div class="daily-text"><b>Бесплатный Daily Drop</b><p id="dailyDescription">Открой кейс и получи случайную награду.</p></div>
+        <button class="daily-btn" id="dailyBtn" onclick="claimDaily()">ЗАБРАТЬ</button>
+      </div>
+    </section>
+
+    <section id="collectionView" class="view">
+      <div class="section-head"><div><h2>Твоя коллекция</h2><p>Собирай цифровые трофеи</p></div><div class="section-tag" id="collectionCount">0 ITEMS</div></div>
+      <div class="inventory" id="inventory"></div>
+      <div class="section-head"><div><h2>Все трофеи</h2><p>Открой их в играх и кейсах</p></div></div>
+      <div class="inventory" id="allItems"></div>
+    </section>
+
+    <section id="achievementsView" class="view">
+      <div class="section-head"><div><h2>Достижения</h2><p>Докажи, что ты легенда</p></div><div class="section-tag" id="achievementCount">0 / 5</div></div>
+      <div class="achievements" id="achievements"></div>
+      <div class="section-head"><div><h2>Статистика</h2><p>Твой аркадный путь</p></div></div>
+      <div class="stats">
+        <div class="stat"><div class="stat-icon">🎮</div><div class="stat-num" id="statPlayed">0</div><div class="stat-label">Всего игр</div></div>
+        <div class="stat"><div class="stat-icon">✨</div><div class="stat-num" id="statXP">0</div><div class="stat-label">Всего XP</div></div>
+        <div class="stat"><div class="stat-icon">📦</div><div class="stat-num" id="statItems">0</div><div class="stat-label">Трофеи</div></div>
+      </div>
+    </section>
+
+    <section id="historyView" class="view">
+      <div class="section-head"><div><h2>История игр</h2><p>Последние события</p></div><div class="section-tag">LOG</div></div>
+      <div class="history" id="history"></div>
+      <button class="secondary" style="width:100%;margin-top:15px" onclick="resetGame()">↻ Сбросить прогресс</button>
+      <div class="footer">Сброс удалит локальный прогресс на этом устройстве.</div>
+    </section>
+  </main>
+  <div class="footer">GRAMJECKPOT 2.0 • RETRO FUTURE ARCADE<br>Все очки и награды в этой версии виртуальные.</div>
 </div>
-<div class="toast" id="toast"></div>
+
+<nav class="bottom-nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" data-view="homeView" onclick="navigate('homeView',this)"><span>⌂</span>ИГРЫ</button>
+    <button class="nav-btn" data-view="collectionView" onclick="navigate('collectionView',this)"><span>💎</span>КОЛЛЕКЦИЯ</button>
+    <button class="nav-btn" data-view="achievementsView" onclick="navigate('achievementsView',this)"><span>🏆</span>ПРОФИЛЬ</button>
+    <button class="nav-btn" data-view="historyView" onclick="navigate('historyView',this)"><span>📜</span>ИСТОРИЯ</button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-(()=>{
+(function(){
+"use strict";
 const $=id=>document.getElementById(id);
-const KEY='gramjeckpot_retro_future_v2';
-const fresh=()=>({balance:100,crystals:0,chests:0,xp:0,plays:0,wins:0,daily:'',items:{},sound:false});
-let s;try{s={...fresh(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){s=fresh()}
-if(!s.items)s.items={};
-let stake=3,game='dice',busy=false,mine=null,timer;
-const catalog=[
-{id:'chip',name:'Pixel Chip',icon:'🪙',rarity:'common',label:'COMMON'},
-{id:'star',name:'Neon Star',icon:'🌟',rarity:'common',label:'COMMON'},
-{id:'crystal',name:'Cyber Crystal',icon:'💎',rarity:'rare',label:'RARE'},
-{id:'orb',name:'Holo Orb',icon:'🔮',rarity:'rare',label:'RARE'},
-{id:'crown',name:'Pixel Crown',icon:'👑',rarity:'epic',label:'EPIC'},
-{id:'dragon',name:'Neon Dragon',icon:'🐉',rarity:'epic',label:'EPIC'},
-{id:'relic',name:'Golden Relic',icon:'🏆',rarity:'legendary',label:'LEGENDARY'},
-{id:'starcrown',name:'Star Crown',icon:'🌠',rarity:'legendary',label:'LEGENDARY'}
+const SAVE_KEY="gramjeckpot_2_save";
+const today=()=>new Date().toLocaleDateString("en-CA");
+const items=[
+ {id:"pixel",name:"Pixel Buddy",icon:"👾",rarity:"Обычный",color:"#b9a3ff"},
+ {id:"coin",name:"Cyber Coin",icon:"🪙",rarity:"Обычный",color:"#b9a3ff"},
+ {id:"star",name:"Neon Star",icon:"🌟",rarity:"Редкий",color:"#35eaff"},
+ {id:"crystal",name:"Cyber Crystal",icon:"💎",rarity:"Редкий",color:"#35eaff"},
+ {id:"crown",name:"Pixel Crown",icon:"👑",rarity:"Эпический",color:"#d58bff"},
+ {id:"dragon",name:"Neon Dragon",icon:"🐉",rarity:"Легендарный",color:"#ffd76a"},
+ {id:"orb",name:"Mystic Orb",icon:"🔮",rarity:"Эпический",color:"#ff75d0"},
+ {id:"rocket",name:"Cyber Rocket",icon:"🚀",rarity:"Редкий",color:"#50ffc0"},
+ {id:"trophy",name:"Golden Trophy",icon:"🏆",rarity:"Легендарный",color:"#ffd76a"}
 ];
-const cfg={
-dice:['🎲 Pixel Dice','CARTRIDGE 01','READY PLAYER ONE','🎲','Твой ход. Испытай удачу!','Выпади 5 или 6, чтобы получить больше очков.'],
-wheel:['🎡 Neon Wheel','CARTRIDGE 02','NEON SPIN SYSTEM','🎡','Колесо уже заряжено!','Вращай колесо и лови множитель.'],
-mines:['💣 Cyber Mines','CARTRIDGE 03','GRID SCANNER ONLINE','💎','Найди кристаллы и избегай мин.','Открой безопасные клетки и забери награду.'],
-case:['🧰 Mystery Case','CARTRIDGE 04','LOOT GENERATOR','🎁','Внутри может быть редкий артефакт.','Открытие стоит выбранную ставку.'],
-slots:['🎰 Pixel Slots','CARTRIDGE 05','REEL ENGINE READY','🎰','Собери одинаковые символы.','Три одинаковых символа дают большой выигрыш.'],
-daily:['🌠 Daily Drop','FREE BONUS','DAILY SUPPLY POD','🎁','Ежедневный бесплатный дроп.','Один бесплатный подарок в день.']
+const games={
+ dice:{title:"🎲 Pixel Dice",sub:"Проверь свою удачу",emoji:"🎲",message:"Выпало 5 или 6 — получаешь награду!"},
+ wheel:{title:"🎡 Neon Wheel",sub:"Крути неоновую рулетку",emoji:"🎡",message:"Испытай удачу на неоновой рулетке."},
+ mines:{title:"💣 Cyber Mines",sub:"Найди кристаллы",emoji:"💎",message:"Открывай безопасные клетки и забирай растущую награду."},
+ case:{title:"🎁 Mystery Case",sub:"Открой тайный лут",emoji:"🎁",message:"Каждый кейс хранит случайный трофей или бонус."},
+ slots:{title:"🎰 Pixel Slots",sub:"Собери комбинацию",emoji:"🎰",message:"Три одинаковых символа дают крупный выигрыш."},
+ daily:{title:"🌠 Daily Drop",sub:"Ежедневный подарок",emoji:"🎁",message:"Получай бесплатную награду раз в сутки."}
 };
-function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
-function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(timer);timer=setTimeout(()=>$('toast').classList.remove('show'),2300)}
-function rand(n){return Math.floor(Math.random()*n)}
-function tone(f=440){if(!s.sound)return;try{let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.value=.04;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.12);o.stop(c.currentTime+.12)}catch(e){}}
-function xp(n){s.xp+=n}
-function level(){return 1+Math.floor(s.xp/100)}
-function owned(){return Object.values(s.items).reduce((a,b)=>a+b,0)}
-function render(){
-$('balance').textContent=s.balance;$('crystals').textContent=s.crystals;$('chests').textContent=s.chests;$('xp').textContent=s.xp;$('level').textContent=level();$('itemTotal').textContent=owned()+' ПРЕДМЕТОВ';
-$('inventory').innerHTML=catalog.filter(i=>s.items[i.id]).map(i=>'<div class="item"><span style="font-size:25px">'+i.icon+'</span> <b>'+i.name+'</b><small class="'+i.rarity+'">'+i.label+' · ×'+s.items[i.id]+'</small></div>').join('')||'<div class="sub" style="grid-column:1/-1;text-align:center">Коллекция пуста. Попробуй открыть Mystery Case!</div>';
-let a=[['🕹️','Новичок',s.plays>=1],['✨','Коллекционер',owned()>0],['💎','Кристальный',s.crystals>=3],['🏆','Ветеран',s.wins>=10],['🌌','Уровень 5',level()>=5]];
-$('achievements').innerHTML=a.map(x=>'<div class="achievement" style="opacity:'+(x[2]?1:.45)+'"><span>'+x[0]+'</span><b>'+x[1]+'</b><br>'+(x[2]?'UNLOCKED':'LOCKED')+'</div>').join('');
-save();
+function fresh(){return {balance:100,crystals:0,xp:0,played:0,wins:0,items:{},lastDaily:"",history:[],unlocked:[],totalWon:0,totalSpent:0};}
+function load(){
+ try{
+  const raw=JSON.parse(localStorage.getItem(SAVE_KEY)||"null");
+  if(!raw||typeof raw!=="object")return fresh();
+  const d=fresh();
+  return {...d,...raw,items:raw.items&&typeof raw.items==="object"?raw.items:{},history:Array.isArray(raw.history)?raw.history:[],unlocked:Array.isArray(raw.unlocked)?raw.unlocked:[]};
+ }catch(e){return fresh();}
 }
-function itemRoll(){let r=Math.random();return catalog[r<.40?rand(2):r<.73?2+rand(2):r<.93?4+rand(2):6+rand(2)]}
-function addItem(i){s.items[i.id]=(s.items[i.id]||0)+1;if(i.id==='crystal')s.crystals++;if(i.rarity==='legendary')s.chests++}
-function win(points=0,crystals=0,item=null){s.balance+=points;s.crystals+=crystals;if(item)addItem(item);s.wins++;xp(12);render()}
-function spend(){if(s.balance<stake){toast('Не хватает очков. Забери Daily Drop!');return false}s.balance-=stake;s.plays++;xp(3);render();return true}
-function show(label,emoji,msg,sub,flash=false){
-$('stageLabel').textContent=label;$('stageEmoji').textContent=emoji;$('message').textContent=msg;$('sub').textContent=sub;
-if(flash){$('playPanel').animate([{boxShadow:'0 0 35px #ffd36a'},{boxShadow:'0 12px 30px #0005'}],650);tone(780)}
+let state=load(),currentGame="dice",stake=2,busy=false,mine=null,soundOn=false,audioCtx=null;
+function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(state));}catch(e){}}
+function toast(msg){const el=$("toast");el.textContent=msg;el.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),2300);}
+function xpNeeded(){return 100+(level()-1)*40;}
+function level(){return Math.floor(Math.sqrt(Math.max(0,state.xp)/50))+1;}
+function addXP(n){state.xp+=n;}
+function addCrystals(n){state.crystals=Math.max(0,state.crystals+n);}
+function addItem(itemId){
+ const item=items.find(x=>x.id===itemId)||items[0];
+ state.items[item.id]=(state.items[item.id]||0)+1;
+ if(item.id==="crystal")addCrystals(1);
+ return item;
 }
-function today(){return new Date().toLocaleDateString('en-CA')}
-function dailyReady(){return s.daily!==today()}
-function select(g){
-game=g;mine=null;document.querySelectorAll('.game').forEach(b=>b.classList.toggle('active',b.dataset.game===g));
-$('gameTitle').textContent=cfg[g][0];$('gameCode').textContent=cfg[g][1];$('mineGrid').hidden=true;$('mineGrid').innerHTML='';
-$('stage').hidden=false;$('cashoutBtn').hidden=true;$('playBtn').hidden=false;$('playBtn').disabled=false;
-show(cfg[g][2],cfg[g][3],cfg[g][4],cfg[g][5]);
-if(g==='daily'){$('playBtn').textContent=dailyReady()?'🎁 ЗАБРАТЬ БЕСПЛАТНЫЙ ДРОП':'✓ УЖЕ ПОЛУЧЕНО СЕГОДНЯ';$('playBtn').disabled=!dailyReady()}
-else $('playBtn').textContent=g==='mines'?'▶ НАЧАТЬ · '+stake+' ОЧКА':'▶ ЗАПУСТИТЬ ИГРУ · '+stake+' ОЧКА';
+function randItem(){
+ const r=Math.random();
+ let pool;
+ if(r<.52)pool=items.filter(x=>x.rarity==="Обычный");
+ else if(r<.82)pool=items.filter(x=>x.rarity==="Редкий");
+ else if(r<.96)pool=items.filter(x=>x.rarity==="Эпический");
+ else pool=items.filter(x=>x.rarity==="Легендарный");
+ return pool[Math.floor(Math.random()*pool.length)];
 }
-function finish(){busy=false;$('playBtn').disabled=false;render()}
-function daily(){
-if(!dailyReady()){toast('Ежедневная награда уже получена!');return}
-s.daily=today();let i=itemRoll(),p=5+rand(11);s.balance+=p;s.crystals++;addItem(i);xp(15);render();show('DAILY DROP UNLOCKED',i.icon,'+'+p+' очков · +1 💎 · '+i.name,'Возвращайся завтра за новым дропом.',true);$('playBtn').disabled=true;$('playBtn').textContent='✓ ДРОП ПОЛУЧЕН';tone(880)
+function record(title,icon,delta,note){
+ state.history.unshift({title,icon,delta,note,time:new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})});
+ state.history=state.history.slice(0,35);
 }
-function minesStart(){
-if(mine&&!mine.over){toast('Открой клетку или забери награду');return}
-if(!spend())return;
-mine={bombs:[],opened:Array(9).fill(false),safe:0,over:false};
-while(mine.bombs.length<2){let n=rand(9);if(!mine.bombs.includes(n))mine.bombs.push(n)}
-$('stage').hidden=true;$('mineGrid').hidden=false;$('mineGrid').innerHTML='';
-for(let i=0;i<9;i++){let b=document.createElement('button');b.className='cell';b.textContent='?';b.onclick=()=>openMine(i);b.dataset.i=i;$('mineGrid').appendChild(b)}
-$('playBtn').hidden=true;$('cashoutBtn').hidden=false;$('cashoutBtn').textContent='💎 ЗАБРАТЬ НАГРАДУ';$('cashoutBtn').disabled=true
+function pay(n){if(state.balance<n){toast("Недостаточно очков!");return false;}state.balance-=n;state.totalSpent+=n;return true;}
+function reward(n){state.balance+=n;state.totalWon+=n;}
+function playSound(freq=440,duration=.09){
+ if(!soundOn)return;
+ try{
+  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type="sine";o.frequency.value=freq;g.gain.value=.045;
+  o.connect(g);g.connect(audioCtx.destination);o.start();
+  g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.stop(audioCtx.currentTime+duration);
+ }catch(e){}
+}
+window.toggleSound=function(){soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊":"🔇";if(soundOn)playSound(600);};
+window.navigate=function(view,btn){
+ document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+ $(view).classList.add("active");
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b===btn));
+ if(view==="collectionView")renderCollection();
+ if(view==="achievementsView")renderAchievements();
+ if(view==="historyView")renderHistory();
+ window.scrollTo({top:0,behavior:"smooth"});
+};
+function navToHome(){navigate("homeView",document.querySelector('[data-view="homeView"]'));}
+window.selectGame=function(id){
+ if(busy)return;
+ currentGame=id;mine=null;
+ document.querySelectorAll(".game").forEach((b,i)=>b.classList.toggle("selected",["dice","wheel","mines","case","slots","daily"][i]===id));
+ $("panelTitle").textContent=games[id].title;
+ $("panelSub").textContent=games[id].sub;
+ $("stage").innerHTML='<div class="stage-emoji" id="stageEmoji">'+games[id].emoji+'</div><div class="stage-message" id="stageMessage">'+games[id].message+'</div>';
+ $("stakeControls").style.display=id==="daily"?"none":"flex";
+ $("playBtn").style.display="block";
+ $("cashoutBtn").style.display="none";
+ $("playBtn").textContent=id==="daily"?"🎁 ПОЛУЧИТЬ НАГРАДУ":"🎮 ИГРАТЬ • "+stake+" PTS";
+ if(id==="mines"){$("playBtn").textContent="💣 НАЧАТЬ • "+stake+" PTS";}
+ if(id==="daily"){$("playBtn").textContent="🎁 ПОЛУЧИТЬ НАГРАДУ";$("playBtn").disabled=state.lastDaily===today();}
+ document.querySelectorAll(".stake-btn").forEach(b=>b.classList.toggle("active",Number.parseInt(b.textContent)===stake));
+ if(id==="mines")$("stage").innerHTML='<div class="stage-emoji">💎</div><div class="stage-message">Начни раунд. Каждый найденный кристалл увеличивает награду. Можно забрать её в любой момент.</div>';
+ if(id==="wheel")$("stage").innerHTML='<div class="wheel" id="wheelGraphic">🎯</div><div class="stage-message">Прокрути колесо и узнай свой результат.</div>';
+ if(id==="slots")$("stage").innerHTML='<div class="slots"><div class="slot">🍒</div><div class="slot">⭐</div><div class="slot">💎</div></div><div class="stage-message">Три одинаковых символа — большой выигрыш!</div>';
+ if(id==="case")$("stage").innerHTML='<div class="stage-emoji">🎁</div><div class="stage-message">Внутри может быть бонус или коллекционный предмет.</div>';
+ if(id==="daily")$("stage").innerHTML='<div class="stage-emoji">🌠</div><div class="stage-message">Бесплатная награда доступна один раз в сутки.</div>';
+ if(id!=="daily")$("playBtn").disabled=false;
+ updateDaily();
+};
+window.setStake=function(n){
+ if(busy||n<1||n>5)return;
+ stake=n;
+ document.querySelectorAll(".stake-btn").forEach(b=>b.classList.toggle("active",Number.parseInt(b.textContent)===n));
+ if(currentGame==="mines")$("playBtn").textContent=mine&&!mine.over?"💣 НОВЫЙ РАУНД • "+stake+" PTS":"💣 НАЧАТЬ • "+stake+" PTS";
+ else $("playBtn").textContent="🎮 ИГРАТЬ • "+stake+" PTS";
+};
+function finish(){busy=false;render();save();}
+function showResult(icon,msg){$("stage").innerHTML='<div class="stage-emoji" style="animation:pop .35s ease">'+icon+'</div><div class="stage-message">'+msg+'</div>';}
+function startGame(){
+ if(busy)return false;
+ if(!pay(stake))return false;
+ state.played++;addXP(8);busy=true;playSound(330);
+ return true;
+}
+window.playGame=function(){
+ if(busy)return;
+ if(currentGame==="daily"){claimDaily();return;}
+ if(currentGame==="mines"){startMines();return;}
+ if(!startGame())return;
+ const id=currentGame;
+ $("playBtn").disabled=true;
+ if(id==="dice"){
+  $("stageEmoji").textContent="🎲";$("stageMessage").textContent="Кубик бросается…";
+  setTimeout(()=>{
+   const roll=1+Math.floor(Math.random()*6);
+   let gain=0;
+   if(roll===6)gain=stake*5;
+   else if(roll===5)gain=stake*3;
+   else if(roll===4)gain=stake;
+   if(gain){reward(gain);state.wins++;playSound(720);showResult("🎲","Выпало <strong>"+roll+"</strong>! Выигрыш: <strong>+"+gain+" PTS</strong>");record("Pixel Dice","🎲",gain-stake,"Выпало "+roll);}
+   else{showResult("💥","Выпало <strong>"+roll+"</strong>. В следующий раз повезёт!");record("Pixel Dice","🎲",-stake,"Выпало "+roll);}
+   finish();
+  },650);
+ }else if(id==="wheel"){
+  $("stage").innerHTML='<div class="wheel spinning" id="wheelGraphic">🎯</div><div class="stage-message">Колесо вращается…</div>';
+  setTimeout(()=>{
+   const r=Math.random();let mult=r<.12?5:r<.32?3:r<.62?2:r<.82?1:0;
+   const gain=stake*mult;
+   if(gain){reward(gain);state.wins++;playSound(760);showResult(mult>=3?"🌟":"🎡","Множитель <strong>x"+mult+"</strong>! "+(gain>stake?"Выигрыш":"Возврат")+": <strong>+"+gain+" PTS</strong>");}
+   else showResult("💨","В этот раз без выигрыша.");
+   record("Neon Wheel","🎡",gain-stake,"Множитель x"+mult);finish();
+  },1500);
+ }else if(id==="case"){
+  $("stageEmoji").textContent="🎁";$("stageMessage").textContent="Открываем секретный кейс…";
+  setTimeout(()=>{
+   const r=Math.random();
+   if(r<.4){
+    const bonus=stake*(2+Math.floor(Math.random()*3));reward(bonus);state.wins++;
+    showResult("🪙","В кейсе найдено <strong>+"+bonus+" PTS</strong>!");
+    record("Mystery Case","🎁",bonus-stake,"Монетный бонус");
+   }else{
+    const item=addItem(randItem().id);state.wins++;
+    if(item.id==="crystal")addCrystals(1);
+    showResult(item.icon,"Найден трофей!<br><strong>"+item.name+"</strong><br><span style='color:"+item.color+"'>"+item.rarity+"</span>");
+    record("Mystery Case","🎁",-stake,"Предмет: "+item.name);
+   }
+   finish();
+  },850);
+ }else if(id==="slots"){
+  const symbols=["🍒","⭐","💎","👾","🍀","🔔"];
+  const result=[0,0,0].map(()=>symbols[Math.floor(Math.random()*symbols.length)]);
+  $("stage").innerHTML='<div class="slots"><div class="slot">❔</div><div class="slot">❔</div><div class="slot">❔</div></div><div class="stage-message">Барабаны крутятся…</div>';
+  setTimeout(()=>{
+   $("stage").innerHTML='<div class="slots">'+result.map(s=>'<div class="slot">'+s+'</div>').join("")+'</div><div class="stage-message" id="slotMessage"></div>';
+   let gain=0;
+   if(result.every(s=>s===result[0]))gain=stake*8;
+   else if(result.filter(s=>s==="💎").length>=2)gain=stake*4;
+   else if(result.filter(s=>s==="⭐").length>=2)gain=stake*3;
+   else if(result.filter(s=>s==="🍒").length>=2)gain=stake*2;
+   else if(Math.random()<.18)gain=stake;
+   if(gain){reward(gain);state.wins++;$("slotMessage").innerHTML="Комбинация! <strong>+"+gain+" PTS</strong>";playSound(800);}
+   else $("slotMessage").textContent="Комбинация не совпала. Попробуй ещё!";
+   record("Pixel Slots","🎰",gain-stake,result.join(" "));
+   finish();
+  },800);
+ }
+};
+function startMines(){
+ if(mine&&!mine.over&&mine.active){
+  toast("Сначала забери награду или закончи раунд.");return;
+ }
+ if(!startGame())return;
+ mine={active:true,over:false,stake:stake,found:0,bombs:new Set(),opened:new Set(),mult:1};
+ while(mine.bombs.size<5)mine.bombs.add(Math.floor(Math.random()*25));
+ renderMines();
+ $("playBtn").textContent="💎 ИЩИ КРИСТАЛЛЫ";
+ $("playBtn").disabled=true;
+ $("cashoutBtn").style.display="block";
+ $("cashoutBtn").textContent="💎 ЗАБРАТЬ • "+stake+" PTS";
+}
+function renderMines(){
+ const stage=$("stage");
+ stage.innerHTML='<div class="stage-message" id="mineInfo">Найди кристаллы и не попади на мину!</div><div class="mines" id="mineGrid"></div>';
+ const grid=$("mineGrid");
+ for(let i=0;i<25;i++){
+  const b=document.createElement("button");b.className="mine-cell";b.textContent=mine.opened.has(i)?(mine.bombs.has(i)?"💣":"💎"):"?";
+  if(mine.opened.has(i))b.classList.add(mine.bombs.has(i)?"bomb":"open");
+  b.disabled=mine.over||mine.opened.has(i);
+  b.onclick=()=>openMine(i);
+  grid.appendChild(b);
+ }
+ $("mineInfo").innerHTML="Найдено: <strong>"+mine.found+"</strong> 💎 · Множитель <strong>x"+mine.mult.toFixed(2)+"</strong>";
 }
 function openMine(i){
-if(!mine||mine.over||mine.opened[i])return;mine.opened[i]=true;let b=$('mineGrid').children[i];
-if(mine.bombs.includes(i)){b.textContent='💣';b.classList.add('boom');mine.over=true;for(let j=0;j<9;j++){if(mine.bombs.includes(j))$('mineGrid').children[j].textContent='💣'}show('SYSTEM BREACH','💥','Мина! Раунд завершён.','Потеряна ставка '+stake+' очка. Попробуй снова.');$('playBtn').hidden=false;$('cashoutBtn').hidden=true;$('playBtn').textContent='▶ НОВЫЙ РАУНД';return}
-b.textContent='💎';b.classList.add('safe');mine.safe++;tone(650);$('cashoutBtn').disabled=false;$('cashoutBtn').textContent='💎 ЗАБРАТЬ · '+(stake+mine.safe*stake)+' ОЧКОВ';
-if(mine.safe===7)cashout();
+ if(!mine||mine.over||!mine.active||mine.opened.has(i))return;
+ mine.opened.add(i);
+ if(mine.bombs.has(i)){
+  mine.over=true;mine.active=false;
+  mine.bombs.forEach(b=>mine.opened.add(b));
+  renderMines();
+  $("mineInfo").innerHTML="💥 Мина! Раунд окончен.";
+  record("Cyber Mines","💣",-mine.stake,"Попалась мина");
+  $("cashoutBtn").style.display="none";$("playBtn").disabled=false;$("playBtn").textContent="🔄 ЕЩЁ РАЗ • "+stake+" PTS";
+  finish();return;
+ }
+ mine.found++;mine.mult=1+mine.found*.35;
+ playSound(600+mine.found*60);
+ renderMines();
+ if(mine.found>=20){
+  cashout();return;
+ }
+ $("cashoutBtn").textContent="💎 ЗАБРАТЬ • "+Math.floor(mine.stake*mine.mult)+" PTS";
 }
-function cashout(){
-if(!mine||mine.over||mine.safe===0)return;mine.over=true;let p=stake+mine.safe*stake;win(p,1);$('stage').hidden=false;$('mineGrid').hidden=true;$('playBtn').hidden=false;$('cashoutBtn').hidden=true;$('playBtn').textContent='▶ НОВЫЙ РАУНД';show('CASH OUT SUCCESS','💎','+'+p+' очков и 1 кристалл!','Раунд завершён. Можно начать заново.',true)
+window.cashout=function(){
+ if(!mine||!mine.active||mine.over)return;
+ const gain=Math.max(1,Math.floor(mine.stake*mine.mult));
+ mine.active=false;mine.over=true;
+ reward(gain);state.wins++;addXP(4);
+ record("Cyber Mines","💎",gain-mine.stake,"Найдено кристаллов: "+mine.found);
+ renderMines();
+ $("mineInfo").innerHTML="🏆 Ты забрал <strong>+"+gain+" PTS</strong>!";
+ $("cashoutBtn").style.display="none";
+ $("playBtn").disabled=false;$("playBtn").textContent="🔄 ЕЩЁ РАЗ • "+stake+" PTS";
+ finish();
+};
+window.claimDaily=function(){
+ if(state.lastDaily===today()){toast("Возвращайся завтра за новым бонусом!");updateDaily();return;}
+ state.lastDaily=today();
+ const r=Math.random();
+ if(r<.45){const n=10+Math.floor(Math.random()*16);reward(n);addXP(10);record("Daily Drop","🎁",n,"Ежедневный бонус");showResult("🪙","Ежедневный бонус: <strong>+"+n+" PTS</strong>!");}
+ else{
+  const item=addItem(randItem().id);addXP(12);
+  record("Daily Drop","🎁",0,"Трофей: "+item.name);
+  showResult(item.icon,"Ежедневный трофей!<br><strong>"+item.name+"</strong><br><span style='color:"+item.color+"'>"+item.rarity+"</span>");
+ }
+ render();save();updateDaily();toast("🎁 Ежедневная награда получена!");
+ if(currentGame==="daily")$("playBtn").disabled=true;
+};
+function updateDaily(){
+ const claimed=state.lastDaily===today();
+ $("dailyBtn").disabled=claimed;
+ $("dailyBtn").textContent=claimed?"ЗАВТРА":"ЗАБРАТЬ";
+ $("dailyDescription").textContent=claimed?"Ты уже забрал сегодняшний бонус. Возвращайся завтра!":"Открой бесплатный кейс и получи случайную награду.";
+ if(currentGame==="daily"&&$("playBtn"))$("playBtn").disabled=claimed;
 }
-function playDice(){
-$('stageEmoji').innerHTML='<div class="dice spin">🎲</div>';show('ROLLING PIXEL DICE','🎲','Кубик крутится…','Сканирование результата');
-setTimeout(()=>{let n=1+rand(6),p=n===6?stake*5:n>=5?stake*3:n>=3?stake:0,i=n===6&&Math.random()<.35?itemRoll():null;if(p||i)win(p,0,i);show('DICE RESULT · '+n,['⚀','⚁','⚂','⚃','⚄','⚅'][n-1],p?'+'+p+' очков'+(i?' · '+i.name:''):'Без выигрыша в этот раз.',i?'Предмет добавлен в коллекцию.':'Попробуй ещё раз!',p>stake||!!i);finish()},850)
+function render(){
+ $("balance").textContent=state.balance;
+ $("crystals").textContent=state.crystals;
+ $("played").textContent=state.played;
+ $("wins").textContent=state.wins;
+ const lv=level(),progress=state.xp-50*(lv-1)*(lv-1),need=xpNeeded();
+ $("level").textContent=String(lv).padStart(2,"0");
+ $("xpFill").style.width=Math.min(100,progress/need*100)+"%";
+ $("xpText").textContent=progress+" / "+need+" XP";
+ $("statPlayed").textContent=state.played;
+ $("statXP").textContent=state.xp;
+ $("statItems").textContent=Object.values(state.items).reduce((a,b)=>a+b,0);
+ $("collectionCount").textContent=Object.values(state.items).reduce((a,b)=>a+b,0)+" ITEMS";
+ updateDaily();
+ renderAchievements();
+ if($("collectionView").classList.contains("active"))renderCollection();
+ if($("historyView").classList.contains("active"))renderHistory();
 }
-function playWheel(){
-$('stage').innerHTML='<div class="stage-label">NEON SPIN SYSTEM</div><div class="wheel-wrap"><div class="pointer"></div><div class="wheel" id="wheel">✦</div></div><div class="message" id="message">Колесо вращается…</div><div class="sub" id="sub">Удача уже в пути</div>';
-let w=$('wheel');requestAnimationFrame(()=>w.style.transform='rotate('+(1440+rand(720))+'deg)');
-setTimeout(()=>{let n=rand(8),mult=[0,1,2,3,5,0,2,10][n],p=stake*mult,i=n===7?catalog[7]:n===4?catalog[4]:null;if(p||i)win(p,n===2?1:0,i);select('wheel');show('WHEEL STOPPED',['🫥','🪙','💎','🌟','👑','🫥','🔮','🌠'][n],p?'×'+mult+' · +'+p+' очков':'Пустой сектор!','Новый спин — новый шанс.',p>=stake*3||!!i);finish()},3100)
+function renderCollection(){
+ const owned=items.filter(i=>(state.items[i.id]||0)>0);
+ $("inventory").innerHTML=owned.length?owned.map(i=>'<div class="item" style="--rarity:'+i.color+'"><span class="item-count">x'+state.items[i.id]+'</span><span class="item-icon">'+i.icon+'</span><div class="item-name">'+i.name+'</div><div class="item-rarity">'+i.rarity.toUpperCase()+'</div></div>').join(""):'<div class="empty" style="grid-column:1/-1">Коллекция пока пуста.<br>Открывай кейсы, чтобы найти первые трофеи!</div>';
+ $("allItems").innerHTML=items.map(i=>'<div class="item" style="--rarity:'+i.color+';opacity:'+(state.items[i.id]?1:.45)+'"><span class="item-icon">'+(state.items[i.id]?i.icon:"🔒")+'</span><div class="item-name">'+i.name+'</div><div class="item-rarity">'+(state.items[i.id]?i.rarity.toUpperCase():"НЕ ОТКРЫТО")+'</div></div>').join("");
 }
-function playCase(){
-show('OPENING MYSTERY CASE','🧰','Сканируем содержимое…','Не закрывай игру');$('stageEmoji').classList.add('spin');
-setTimeout(()=>{let i=itemRoll(),p=i.rarity==='legendary'?stake*8:i.rarity==='epic'?stake*4:i.rarity==='rare'?stake*2:stake;win(p,i.id==='crystal'?1:0,i);show('ITEM DISCOVERED · '+i.label,i.icon,i.name+' · +'+p+' очков','Артефакт добавлен в коллекцию.',i.rarity==='legendary'||i.rarity==='epic');finish()},800)
+const achievementDefs=[
+ {id:"first",icon:"🎮",name:"Первый запуск",desc:"Сыграй в свою первую игру",ok:()=>state.played>=1},
+ {id:"ten",icon:"⚡",name:"Аркадный боец",desc:"Сыграй 10 игр",ok:()=>state.played>=10},
+ {id:"collector",icon:"💎",name:"Охотник за лутом",desc:"Собери 3 разных предмета",ok:()=>Object.values(state.items).filter(n=>n>0).length>=3},
+ {id:"level5",icon:"🆙",name:"На вершине",desc:"Достигни 5 уровня",ok:()=>level()>=5},
+ {id:"winner",icon:"🏆",name:"Победитель",desc:"Выиграй 5 игр",ok:()=>state.wins>=5}
+];
+function renderAchievements(){
+ let count=0;
+ $("achievements").innerHTML=achievementDefs.map(a=>{
+  const ok=a.ok();if(ok)count++;
+  return '<div class="achievement"><div class="ach-icon">'+a.icon+'</div><div class="ach-info"><b>'+a.name+'</b><p>'+a.desc+'</p></div><div class="ach-status">'+(ok?"✓ ОТКРЫТО":"🔒 ЗАКРЫТО")+'</div></div>';
+ }).join("");
+ $("achievementCount").textContent=count+" / "+achievementDefs.length;
 }
-function playSlots(){
-let symbols=['🍒','💎','⭐','👑','🍇','🔔'],n=0;show('PIXEL REELS SPINNING','🎰','Барабаны запускаются…','Собери три одинаковых символа');
-let t=setInterval(()=>{let a=[symbols[rand(6)],symbols[rand(6)],symbols[rand(6)]];$('stageEmoji').textContent=a.join(' ');n++;if(n>=8){clearInterval(t);let p=0,i=null;if(a[0]===a[1]&&a[1]===a[2]){p=stake*8;i=a[0]==='👑'?catalog[4]:a[0]==='💎'?catalog[2]:catalog[1]}else if(a[0]===a[1]||a[1]===a[2]||a[0]===a[2])p=stake*2;if(p)win(p,0,i);show('REELS LOCKED',a.join(' '),p?'Комбинация! +'+p+' очков':'Нет комбинации — попробуй ещё.',i?'Получен предмет: '+i.name:'Три одинаковых символа дают большой выигрыш.',p>=stake*8);finish()}},130)
+function renderHistory(){
+ $("history").innerHTML=state.history.length?state.history.map(h=>'<div class="history-row"><div class="history-icon">'+h.icon+'</div><div class="history-detail">'+h.title+'<small>'+h.note+' · '+h.time+'</small></div><div class="history-value" style="color:'+(h.delta>0?"var(--green)":h.delta<0?"var(--pink)":"var(--muted)")+'">'+(h.delta>0?"+":"")+h.delta+' PTS</div></div>').join(""):'<div class="empty">Здесь появятся результаты твоих игр.</div>';
 }
-function play(){
-if(busy)return;if(game==='daily'){daily();return}if(game==='mines'){minesStart();return}if(!spend())return;busy=true;$('playBtn').disabled=true;tone(260);
-if(game==='dice')playDice();if(game==='wheel')playWheel();if(game==='case')playCase();if(game==='slots')playSlots()
-}
-document.querySelectorAll('[data-stake]').forEach(b=>b.onclick=()=>{stake=+b.dataset.stake;document.querySelectorAll('[data-stake]').forEach(x=>x.classList.toggle('active',x===b));select(game);tone(400)});
-document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>{select(b.dataset.game);tone(320);$('playPanel').scrollIntoView({behavior:'smooth',block:'center'})});
-$('playBtn').onclick=play;$('cashoutBtn').onclick=cashout;
-$('soundBtn').onclick=()=>{s.sound=!s.sound;$('soundBtn').textContent=s.sound?'🔊 ЗВУК: ВКЛ':'🔇 ЗВУК: ВЫКЛ';save();tone(600)};
-$('resetBtn').onclick=()=>{if(confirm('Удалить весь прогресс на этом устройстве?')){s=fresh();stake=3;select('dice');document.querySelectorAll('[data-stake]').forEach(b=>b.classList.toggle('active',b.dataset.stake==='3'));$('soundBtn').textContent='🔇 ЗВУК: ВЫКЛ';render();toast('Прогресс сброшен')}};
-$('soundBtn').textContent=s.sound?'🔊 ЗВУК: ВКЛ':'🔇 ЗВУК: ВЫКЛ';
-render();select('dice');
+window.resetGame=function(){
+ if(!confirm("Точно сбросить весь прогресс GramJeckpot на этом устройстве?"))return;
+ state=fresh();mine=null;busy=false;stake=2;
+ try{localStorage.removeItem(SAVE_KEY);}catch(e){}
+ selectGame("dice");render();save();toast("Прогресс сброшен");
+};
+selectGame("dice");
+render();
 })();
 </script>
 </body>
