@@ -11,35 +11,41 @@
 *{box-sizing:border-box}
 body{margin:0;background:#100d1c;color:#fff;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif}
 button{font:inherit;cursor:pointer}
-.app{width:100%;max-width:900px;margin:auto;padding:20px 16px 40px}
-header{text-align:center;padding:15px 0 24px}
+.app{max-width:800px;margin:auto;padding:16px 14px 40px}
+header{text-align:center;padding:16px 0 22px}
 .logo{font-size:48px}
-h1{margin:8px 0;color:#c4a2ff;font-size:32px}
+h1{font-size:31px;color:#c4a2ff;margin:5px}
 .sub,.muted{color:#aaa0bd}
 .sub{font-size:12px;letter-spacing:2px}
-.wallet{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
-.panel{background:#211a35;border:1px solid #403052;border-radius:18px;padding:18px}
+h2{font-size:20px;margin:24px 0 12px}
+.panel,.case,.gamebox{background:#211a35;border:1px solid #403052;border-radius:18px;padding:17px}
+.wallet{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .balance{text-align:center}
 .label{font-size:13px;color:#aaa0bd}
-.amount{font-size:23px;font-weight:bold;margin-top:8px}
-h2{font-size:20px;margin:26px 0 14px}
-.case{background:linear-gradient(145deg,#51317c,#211a35);border:1px solid #694b91;border-radius:22px;padding:24px 16px;text-align:center}
-.chest{font-size:76px;margin:14px}
-button.primary{width:100%;border:0;border-radius:13px;padding:15px;background:#c3a1ff;color:#190f2b;font-weight:800}
-button.primary:disabled{opacity:.55;cursor:default}
-.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.game{background:#211a35;border:1px solid #403052;border-radius:18px;padding:20px 10px;text-align:center;color:#fff}
-.game .emoji{font-size:34px}
-.game p{margin:9px 0 0;font-weight:700}
-.game small{display:block;margin-top:6px;color:#aaa0bd}
-.game:active{transform:scale(.98)}
-.notice{font-size:12px;line-height:1.6;color:#9389a6;margin-top:25px;text-align:center}
-.status{text-align:center;font-size:13px;color:#c4a2ff;margin-top:14px;min-height:18px}
-@media(min-width:600px){
-.app{padding:28px 24px 50px}
-.games{grid-template-columns:repeat(4,minmax(0,1fr))}
-.case{padding:30px}
-}
+.amount{font-size:25px;font-weight:bold;margin-top:8px;color:#d4baff}
+.case{background:linear-gradient(145deg,#51317c,#211a35);text-align:center;padding:22px 15px}
+.chest{font-size:68px;margin:12px}
+button.primary{width:100%;border:0;border-radius:13px;padding:14px;background:#c3a1ff;color:#190f2b;font-weight:800}
+button:disabled{opacity:.5;cursor:default}
+.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.game{background:#211a35;border:1px solid #403052;border-radius:17px;padding:17px 8px;text-align:center;color:#fff}
+.game .emoji{font-size:32px}
+.game p{margin:7px 0;font-weight:700}
+.game small{color:#aaa0bd}
+.game.active{border-color:#c3a1ff;background:#302044}
+.status{text-align:center;color:#d4baff;line-height:1.5;margin-top:12px;min-height:22px}
+.gamebox{text-align:center}
+.big{font-size:64px;margin:14px}
+.actions{display:flex;gap:8px;margin-top:12px}
+.actions button{flex:1}
+.secondary{background:#38294e;color:#fff;border:1px solid #604779;border-radius:12px;padding:12px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:15px 0}
+.cell{min-height:76px;border-radius:13px;background:#38294e;color:white;border:1px solid #604779;font-size:27px}
+.cell.safe{background:#225a4b}
+.cell.mine{background:#762f48}
+.notice{font-size:12px;line-height:1.6;color:#9389a6;text-align:center;margin-top:24px}
+#gameArea{scroll-margin-top:12px}
+@media(min-width:600px){.app{padding:26px}.games{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -52,38 +58,39 @@ button.primary:disabled{opacity:.55;cursor:default}
 
 <section class="wallet">
 <div class="panel balance">
-<div class="label">💎 TON balance</div>
-<div class="amount">0.00</div>
+<div class="label">💎 Игровые очки</div>
+<div class="amount" id="balance">0</div>
 </div>
 <div class="panel balance">
-<div class="label">⭐ Stars balance</div>
-<div class="amount">0</div>
+<div class="label">🎮 Всего игр</div>
+<div class="amount" id="plays">0</div>
 </div>
 </section>
 
-<h2>🎁 Daily case</h2>
+<h2>🎁 Ежедневный кейс</h2>
 <section class="case">
-<div class="sub">YOUR DAILY BONUS</div>
-<div class="chest">🎁</div>
-<p id="caseText">Открой свой ежедневный кейс!</p>
-<button class="primary" id="caseButton">Открыть кейс</button>
-<div class="status" id="status"></div>
+<div class="sub">DAILY BONUS</div>
+<div class="chest" id="chest">🎁</div>
+<p id="caseText">Забери свой ежедневный бонус!</p>
+<button class="primary" id="caseButton">Открыть бесплатный кейс</button>
+<div class="status" id="caseStatus"></div>
 </section>
 
 <h2>🎮 Игровой зал</h2>
 <section class="games">
-<button class="game" data-game="Dice">
-<div class="emoji">🎲</div><p>Dice</p><small>Игра в кости</small>
-</button>
-<button class="game" data-game="Mines">
-<div class="emoji">💣</div><p>Mines</p><small>Найди приз</small>
-</button>
-<button class="game" data-game="Wheel">
-<div class="emoji">🎡</div><p>Колесо удачи</p><small>Испытай удачу</small>
-</button>
-<button class="game" data-game="Gifts">
-<div class="emoji">🏆</div><p>Награды</p><small>Подарки и NFT</small>
-</button>
+<button class="game active" data-game="dice"><div class="emoji">🎲</div><p>Dice</p><small>Бросай кубик</small></button>
+<button class="game" data-game="mines"><div class="emoji">💣</div><p>Mines</p><small>Найди кристаллы</small></button>
+<button class="game" data-game="wheel"><div class="emoji">🎡</div><p>Колесо</p><small>Крути и выигрывай</small></button>
+<button class="game" data-game="gifts"><div class="emoji">🏆</div><p>Награды</p><small>Подарки и NFT</small></button>
+</section>
+
+<h2 id="gameTitle">🎲 Dice — бросок кубика</h2>
+<section class="gamebox" id="gameArea">
+<div class="big" id="gameIcon">🎲</div>
+<p id="gameDescription">Нажми кнопку и испытай удачу. За результат 4–6 получишь 10 очков.</p>
+<button class="primary" id="playButton">Бросить кубик</button>
+<div class="status" id="gameStatus" aria-live="polite"></div>
+<div id="extra"></div>
 </section>
 
 <h2>👤 Профиль</h2>
@@ -92,49 +99,161 @@ button.primary:disabled{opacity:.55;cursor:default}
 <p class="muted" id="userInfo">Добро пожаловать в игровой хаб!</p>
 </section>
 
-<p class="notice">
-Демонстрационная версия. Балансы, игры и награды пока не подключены к серверу.
-Не отправляйте TON и Stars на этой странице. Реальные платежи будут добавлены после настройки безопасной серверной проверки.
-</p>
+<p class="notice">Демонстрационная версия. Очки и таймер кейса сохраняются только в браузере этого устройства и не являются деньгами. Реальные TON, Stars, NFT и призы не начисляются. Не отправляй средства на эту страницу.</p>
 </main>
 
 <script>
-const tg = window.Telegram && window.Telegram.WebApp;
-if (tg) {
+const tg = window.Telegram?.WebApp;
+if(tg){
   tg.ready();
   tg.expand();
-  const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
-  if (user) {
-    document.getElementById('userName').textContent =
-      user.first_name || 'Игрок GramJeckpot';
-    document.getElementById('userInfo').textContent =
-      'Telegram ID: ' + user.id;
+  const user=tg.initDataUnsafe?.user;
+  if(user){
+    document.getElementById('userName').textContent=user.first_name||'Игрок GramJeckpot';
+    document.getElementById('userInfo').textContent='Ты играешь через Telegram.';
   }
 }
 
-const caseButton = document.getElementById('caseButton');
-caseButton.addEventListener('click', () => {
-  document.getElementById('caseText').textContent =
-    'Демонстрационный кейс открыт!';
-  document.getElementById('status').textContent =
-    'Система реальных наград появится на следующем этапе.';
-  caseButton.textContent = 'Кейс просмотрен';
-  caseButton.disabled = true;
-});
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toLocaleDateString('en-CA');
+let saved={};
+try{saved=JSON.parse(localStorage.getItem('gjSave')||'{}')||{};}catch(e){}
+let balance=Number(saved.balance)||0;
+let plays=Number(saved.plays)||0;
+let lastCase=saved.lastCase||'';
+let game='dice', busy=false, mineMap=[], opened=[], roundOver=false;
 
-document.querySelectorAll('[data-game]').forEach(button => {
-  button.addEventListener('click', () => {
-    const game = button.dataset.game;
-    document.getElementById('status').textContent =
-      game === 'Gifts'
-      ? 'Система подарков и NFT будет подключена позже.'
-      : 'Игра ' + game + ' будет реализована на следующем этапе.';
-    document.querySelector('.case').scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
-  });
+function save(){
+  try{localStorage.setItem('gjSave',JSON.stringify({balance,plays,lastCase}));}catch(e){}
+  $('balance').textContent=balance;
+  $('plays').textContent=plays;
+}
+function addPoints(n){
+  balance+=n;
+  save();
+}
+function setStatus(text){$('gameStatus').textContent=text;}
+function setGame(name){
+  game=name;busy=false;
+  document.querySelectorAll('[data-game]').forEach(b=>b.classList.toggle('active',b.dataset.game===name));
+  $('extra').innerHTML='';
+  setStatus('');
+  const config={
+    dice:['🎲 Dice — бросок кубика','🎲','Нажми кнопку. За результат 4–6 получишь 10 очков, за 1–3 — 2 очка.','Бросить кубик'],
+    mines:['💣 Mines — найди кристаллы','💎','Открывай клетки и собирай кристаллы. На поле 7 безопасных клеток и 2 мины.','Начать игру'],
+    wheel:['🎡 Колесо удачи','🎡','Крути колесо и получи случайный бонус от 0 до 25 очков.','Крутить колесо'],
+    gifts:['🏆 Награды','🎁','Здесь позже появятся реальные кампании с подарками и NFT. Пока реальные призы не подключены.','Посмотреть статус']
+  }[name];
+  $('gameTitle').textContent=config[0];
+  $('gameIcon').textContent=config[1];
+  $('gameDescription').textContent=config[2];
+  $('playButton').textContent=config[3];
+  $('playButton').disabled=false;
+  if(name==='mines') renderMines();
+  if(name==='gifts'){
+    $('playButton').disabled=true;
+    $('gameIcon').textContent='🔒';
+    setStatus('Система призов будет добавлена после настройки сервера.');
+  }
+  $('gameArea').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function countPlay(){plays++;save();}
+
+$('caseButton').addEventListener('click',()=>{
+  if(lastCase===today()){
+    $('caseStatus').textContent='Ты уже открывал кейс сегодня. Возвращайся завтра!';
+    return;
+  }
+  const prize=[10,15,20,25,30,50][Math.floor(Math.random()*6)];
+  lastCase=today();
+  addPoints(prize);
+  $('chest').textContent='✨';
+  $('caseText').textContent='Поздравляем! Твой бонус: '+prize+' очков!';
+  $('caseButton').disabled=true;
+  $('caseButton').textContent='Кейс открыт';
+  $('caseStatus').textContent='Следующий бесплатный кейс будет доступен завтра.';
+  save();
 });
+function updateCase(){
+  const claimed=lastCase===today();
+  $('caseButton').disabled=claimed;
+  $('caseButton').textContent=claimed?'Кейс уже открыт':'Открыть бесплатный кейс';
+  if(claimed){
+    $('chest').textContent='✨';
+    $('caseText').textContent='Твой сегодняшний бонус уже получен.';
+    $('caseStatus').textContent='Возвращайся завтра за новым кейсом.';
+  }
+}
+
+function renderMines(){
+  const extra=$('extra');
+  extra.innerHTML='<div class="grid" id="mineGrid"></div><div class="status" id="mineStatus">Нажми «Начать игру», чтобы разложить клетки.</div><button class="secondary" id="mineReset">Новая игра</button>';
+  $('mineReset').addEventListener('click',startMines);
+}
+function startMines(){
+  mineMap=Array(9).fill(false);
+  while(mineMap.filter(Boolean).length<2){
+    mineMap[Math.floor(Math.random()*9)]=true;
+  }
+  opened=[];roundOver=false;
+  $('mineStatus').textContent='Открывай клетки. Каждый кристалл даёт 5 очков.';
+  $('mineGrid').innerHTML='';
+  for(let i=0;i<9;i++){
+    const b=document.createElement('button');
+    b.className='cell';b.textContent='?';
+    b.addEventListener('click',()=>openCell(i,b));
+    $('mineGrid').appendChild(b);
+  }
+}
+function openCell(i,b){
+  if(roundOver||opened.includes(i))return;
+  opened.push(i);
+  countPlay();
+  if(mineMap[i]){
+    b.textContent='💣';b.classList.add('mine');
+    roundOver=true;
+    $('mineStatus').textContent='Мина! Раунд завершён. Начни новую игру.';
+    document.querySelectorAll('.cell').forEach((c,j)=>{
+      if(mineMap[j]&&!opened.includes(j)){c.textContent='💣';c.classList.add('mine');}
+      c.disabled=true;
+    });
+    return;
+  }
+  b.textContent='💎';b.classList.add('safe');b.disabled=true;
+  addPoints(5);
+  const safe=opened.filter(j=>!mineMap[j]).length;
+  $('mineStatus').textContent='Кристалл найден! +5 очков. Найдено: '+safe+'/7';
+  if(safe===7){
+    roundOver=true;
+    $('mineStatus').textContent='Поле очищено! Ты нашёл все кристаллы!';
+  }
+}
+$('playButton').addEventListener('click',()=>{
+  if(game==='gifts')return;
+  if(game==='mines'){
+    startMines();
+    $('playButton').textContent='Начать заново';
+    return;
+  }
+  countPlay();
+  if(game==='dice'){
+    const roll=1+Math.floor(Math.random()*6);
+    const win=roll>=4?10:2;
+    $('gameIcon').textContent=['⚀','⚁','⚂','⚃','⚄','⚅'][roll-1];
+    addPoints(win);
+    setStatus=''; 
+    $('gameStatus').textContent='Выпало '+roll+'! +'+win+' очков.';
+  }
+  if(game==='wheel'){
+    const prizes=[0,2,5,10,15,25];
+    const prize=prizes[Math.floor(Math.random()*prizes.length)];
+    $('gameIcon').textContent='🎉';
+    addPoints(prize);
+    $('gameStatus').textContent=prize===0?'В этот раз без бонуса. Попробуй ещё!':'Поздравляем! +'+prize+' очков!';
+  }
+});
+document.querySelectorAll('[data-game]').forEach(b=>b.addEventListener('click',()=>setGame(b.dataset.game)));
+save();updateCase();
 </script>
 </body>
 </html>
