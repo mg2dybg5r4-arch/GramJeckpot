@@ -731,19 +731,42 @@ function beginRound(){
 
 }
 
-function settle(payout,message,gameIcon){
 
- payout=Math.max(0,Math.floor(payout));
+function settle(payout, message, gameIcon) {
+  payout = Math.max(0, Math.floor(payout));
 
- data.balance+=payout;addXP(5+(payout>stake?5:0));addHistory(games[currentGame].title,stake,payout,gameIcon);
+  data.balance += payout;
+  addXP(5 + (payout > stake ? 5 : 0));
+  addHistory(
+    games[currentGame].title,
+    stake,
+    payout,
+    gameIcon
+  );
 
- busy=false;roundActive=false;updateUI();
+  busy = false;
+  roundActive = false;
+  updateUI();
 
- result(message+(payout>0?" · Выплата: "+payout+" очк.":" · Выплата: 0"),payout>stake?"win":"lose");
+  result(
+    message + (payout > 0
+      ? " · Выплата: " + payout + " очк."
+      : " · Выплата: 0"),
+    payout > stake ? "win" : "lose"
+  );
 
- $("againBtn").classList.remove("hidden");renderControls();
+  if (payout >= stake * 5 && payout > 0) {
+    arcadeFX("jackpot", "JACKPOT!");
+  } else if (payout > stake) {
+    arcadeFX("win", "WIN!");
+  } else {
+    arcadeFX("lose", "TRY AGAIN");
+  }
 
+  $("againBtn").classList.remove("hidden");
+  renderControls();
 }
+
 
 function playCurrent(){
 
@@ -958,6 +981,75 @@ function animate(type,params){
 }
 
 const canvas=$("gameCanvas"),ctx=canvas.getContext("2d");
+
+/* ===== ARCADE PARTICLE ENGINE ===== */
+
+function arcadeFX(type = "win", label = "") {
+  const scene = document.querySelector(".scene");
+  if (!scene) return;
+
+  const old = scene.querySelector(".fx-layer");
+  if (old) old.remove();
+
+  const layer = document.createElement("div");
+  layer.className = "fx-layer";
+  scene.appendChild(layer);
+
+  scene.classList.remove("fx-win", "fx-lose", "fx-jackpot");
+  void scene.offsetWidth;
+
+  if (type === "jackpot") {
+    scene.classList.add("fx-jackpot");
+  } else if (type === "win") {
+    scene.classList.add("fx-win");
+  } else {
+    scene.classList.add("fx-lose");
+  }
+
+  const colors = type === "lose"
+    ? ["#ff4f78", "#ff8ba9", "#ffb36b"]
+    : type === "jackpot"
+      ? ["#ffd66b", "#ffffff", "#ff4fd8", "#5df6ff"]
+      : ["#76ff9c", "#5df6ff", "#ff4fd8", "#ffd66b"];
+
+  const count = type === "jackpot" ? 65 : 34;
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("i");
+    p.className = "fx-particle";
+
+    p.style.setProperty("--x", (15 + Math.random() * 70) + "%");
+    p.style.setProperty("--y", (25 + Math.random() * 45) + "%");
+    p.style.setProperty("--size", (3 + Math.random() * 7) + "px");
+    p.style.setProperty("--color",
+      colors[Math.floor(Math.random() * colors.length)]);
+    p.style.setProperty("--dx", (Math.random() * 260 - 130) + "px");
+    p.style.setProperty("--dy", (-40 - Math.random() * 190) + "px");
+    p.style.setProperty("--duration", (.55 + Math.random() * .8) + "s");
+    p.style.setProperty("--round", Math.random() > .5 ? "50%" : "2px");
+
+    layer.appendChild(p);
+  }
+
+  if (label) {
+    const word = document.createElement("div");
+    word.className = "fx-word";
+    word.textContent = label;
+    layer.appendChild(word);
+  }
+
+  const wallet = document.querySelector(".wallet");
+  if (wallet && type !== "lose") {
+    wallet.classList.remove("pulse");
+    void wallet.offsetWidth;
+    wallet.classList.add("pulse");
+  }
+
+  setTimeout(() => {
+    if (layer.isConnected) layer.remove();
+    scene.classList.remove("fx-win", "fx-lose", "fx-jackpot");
+  }, 1500);
+}
 
 function rect(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))}
 
