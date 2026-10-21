@@ -168,6 +168,213 @@ h3{font-size:14px;margin-bottom:8px}
 
 .toast{position:fixed;z-index:150;bottom:20px;left:50%;transform:translateX(-50%);background:#222b50;border:1px solid var(--cyan);padding:12px 17px;border-radius:12px;box-shadow:0 8px 30px #0009;font-size:13px;max-width:90%;text-align:center}
 
+/* ===== GRAMJECKPOT ARCADE FX UPGRADE ===== */
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 10% 0%, #34215e99, transparent 55%),
+    linear-gradient(145deg, #1b2142, #0b1024);
+  box-shadow: 0 10px 35px #0005, inset 0 1px #ffffff0b;
+}
+
+.gamecard {
+  position: relative;
+  isolation: isolate;
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+
+.gamecard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    115deg, transparent 20%,
+    #ffffff22 45%, transparent 65%
+  );
+  transform: translateX(-120%);
+}
+
+.gamecard:active {
+  transform: scale(.97);
+}
+
+.gamecard:hover {
+  border-color: #5df6ff;
+  box-shadow: 0 0 22px #5df6ff30;
+}
+
+.gamecard:hover::after {
+  opacity: 1;
+  animation: cardShine .7s ease;
+}
+
+.gamecard .thumb {
+  background:
+    radial-gradient(ellipse, #35316b 0%, #090d20 75%);
+}
+
+.logo {
+  animation: logoGlow 3s ease-in-out infinite alternate;
+}
+
+.wallet {
+  box-shadow: 0 0 20px #ffd66b12;
+  transition: box-shadow .3s;
+}
+
+.wallet.pulse {
+  animation: walletPulse .5s ease;
+}
+
+.scene {
+  isolation: isolate;
+  box-shadow: inset 0 0 25px #5df6ff12;
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    #00000013 4px
+  );
+}
+
+.scene.fx-win {
+  animation: winFlash .65s ease;
+}
+
+.scene.fx-lose {
+  animation: loseShake .4s ease;
+}
+
+.scene.fx-jackpot {
+  animation: jackpotFlash .9s ease;
+}
+
+.result {
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.result.win {
+  box-shadow: 0 0 22px #76ff9c20;
+  animation: resultPop .4s ease;
+}
+
+.result.lose {
+  animation: resultPop .3s ease;
+}
+
+button.primary {
+  box-shadow: 0 4px 0 #07506a, 0 0 15px #00d9ff20;
+}
+
+button.gold {
+  box-shadow: 0 4px 0 #79501d, 0 0 15px #ffd66b20;
+}
+
+.fx-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fx-particle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: var(--color);
+  border-radius: var(--round, 2px);
+  box-shadow: 0 0 9px var(--color);
+  animation: particleFly var(--duration) ease-out forwards;
+}
+
+.fx-word {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 100%;
+  text-align: center;
+  font-weight: 1000;
+  font-size: clamp(22px, 7vw, 38px);
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow:
+    0 0 8px #5df6ff,
+    0 0 20px #ff4fd8,
+    3px 4px #702d9b;
+  animation: wordBurst .85s ease-out forwards;
+}
+
+@keyframes logoGlow {
+  from { text-shadow: 0 0 4px #ff4fd855; }
+  to { text-shadow: 0 0 14px #5df6ff88, 2px 2px #702d9b; }
+}
+
+@keyframes walletPulse {
+  50% { box-shadow: 0 0 28px #ffd66b88; transform: scale(1.035); }
+}
+
+@keyframes cardShine {
+  to { transform: translateX(120%); }
+}
+
+@keyframes winFlash {
+  0%,100% { border-color: #303c69; }
+  35% { border-color: #76ff9c; box-shadow: 0 0 30px #76ff9c66; }
+}
+
+@keyframes loseShake {
+  20%,60% { transform: translateX(-4px); }
+  40%,80% { transform: translateX(4px); }
+}
+
+@keyframes jackpotFlash {
+  0%,100% { filter: brightness(1); }
+  25%,65% { filter: brightness(1.8) saturate(1.5); }
+  45% { filter: brightness(.8); }
+}
+
+@keyframes resultPop {
+  0% { transform: scale(.96); }
+  60% { transform: scale(1.025); }
+  100% { transform: scale(1); }
+}
+
+@keyframes particleFly {
+  to {
+    transform: translate(var(--dx), var(--dy)) rotate(540deg);
+    opacity: 0;
+  }
+}
+
+@keyframes wordBurst {
+  0% { opacity: 0; transform: translate(-50%, 20px) scale(.4); }
+  35% { opacity: 1; transform: translate(-50%, -5px) scale(1.12); }
+  100% { opacity: 0; transform: translate(-50%, -55px) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gamecard, .scene, .result, .logo {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 @media(min-width:600px){.gamegrid{grid-template-columns:repeat(3,minmax(0,1fr))}.gamecard .thumb{height:125px}.scene canvas{height:250px}}
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
